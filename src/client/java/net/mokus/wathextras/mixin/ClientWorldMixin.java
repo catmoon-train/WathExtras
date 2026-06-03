@@ -26,19 +26,19 @@ import java.util.function.Supplier;
 
 @Mixin(ClientLevel.class)
 public abstract class ClientWorldMixin extends Level {
-    protected ClientWorldMixin(WritableLevelData properties, ResourceKey<Level> registryRef, RegistryAccess registryManager, Holder<DimensionType> dimensionEntry, Supplier<ProfilerFiller> ProfilerFiller, boolean isClient, boolean debugWorld, long biomeAccess, int maxChainedNeighborUpdates) {
-        super(properties, registryRef, registryManager, dimensionEntry, ProfilerFiller, isClient, debugWorld, biomeAccess, maxChainedNeighborUpdates);
+    protected ClientWorldMixin(WritableLevelData properties, ResourceKey<Level> registryRef, RegistryAccess registryManager, Holder<DimensionType> dimensionEntry, Supplier<ProfilerFiller> profiler, boolean isClient, boolean debugWorld, long biomeAccess, int maxChainedNeighborUpdates) {
+        super(properties, registryRef, registryManager, dimensionEntry, profiler, isClient, debugWorld, biomeAccess, maxChainedNeighborUpdates);
     }
 
     @Final
     @Shadow
     @Mutable
-    private static Set<Item> BLOCK_MARKER_ITEMS;
+    private static Set<Item> MARKER_PARTICLE_ITEMS;
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    public void tmmore$addBarrierLikeBlocks(ClientPacketListener networkHandler, ClientLevel.ClientLevelData properties, ResourceKey<Level> registryRef, Holder<DimensionType> dimensionTypeEntry, int loadDistance, int simulationDistance, Supplier<ProfilerFiller> ProfilerFiller, LevelRenderer LevelRenderer, boolean debugWorld, long seed, CallbackInfo ci) {
-        BLOCK_MARKER_ITEMS = new HashSet<>(BLOCK_MARKER_ITEMS);
-        BLOCK_MARKER_ITEMS.add(ModBlocks.KILL_BLOCK.asItem());
-        BLOCK_MARKER_ITEMS.add(ModBlocks.KILL_BLOCK_PANEL.asItem());
+    public void tmmore$addBarrierLikeBlocks(ClientPacketListener networkHandler, ClientLevel.ClientLevelData properties, ResourceKey registryRef, Holder dimensionTypeEntry, int loadDistance, int simulationDistance, Supplier profiler, LevelRenderer worldRenderer, boolean debugWorld, long seed, CallbackInfo ci) {
+        MARKER_PARTICLE_ITEMS = new HashSet<>(MARKER_PARTICLE_ITEMS);
+        MARKER_PARTICLE_ITEMS.add(ModBlocks.KILL_BLOCK.asItem());
+        MARKER_PARTICLE_ITEMS.add(ModBlocks.KILL_BLOCK_PANEL.asItem());
     }
 }

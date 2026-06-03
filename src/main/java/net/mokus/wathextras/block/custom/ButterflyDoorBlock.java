@@ -24,7 +24,7 @@ public class ButterflyDoorBlock extends HorizontalDirectionalBlock {
 
     public ButterflyDoorBlock(BlockBehaviour.Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
+        this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.NORTH));
     }
 
     @Override

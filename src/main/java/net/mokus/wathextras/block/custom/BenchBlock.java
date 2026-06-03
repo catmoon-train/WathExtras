@@ -40,7 +40,7 @@ public class BenchBlock extends HorizontalFacingMountableBlock {
 
     public BenchBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any()
+        this.registerDefaultState(this.defaultBlockState()
                 .setValue(FACING, Direction.NORTH)
                 .setValue(PART, PartType.CENTER));
     }

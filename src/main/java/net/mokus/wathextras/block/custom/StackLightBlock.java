@@ -27,7 +27,7 @@ public class StackLightBlock extends Block {
 
     public StackLightBlock(BlockBehaviour.Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(LIT, false).setValue(ACTIVE, true));
+        this.registerDefaultState(this.defaultBlockState().setValue(LIT, false).setValue(ACTIVE, true));
     }
 
     @Override

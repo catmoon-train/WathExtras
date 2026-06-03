@@ -19,7 +19,7 @@ public class DoubleHullBlock extends Block {
 
     public DoubleHullBlock(BlockBehaviour.Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(PART, PartType.LEFT));
+        this.registerDefaultState(this.defaultBlockState().setValue(PART, PartType.LEFT));
     }
 
     @Override

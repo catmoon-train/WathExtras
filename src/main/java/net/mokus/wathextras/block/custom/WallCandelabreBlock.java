@@ -54,7 +54,7 @@ public class WallCandelabreBlock extends CandelabreBlock{
 
     public WallCandelabreBlock(SimpleParticleType particle, Properties properties) {
         super(particle, properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(LIT, false));
+        this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.NORTH).setValue(LIT, false));
     }
 
     @Override

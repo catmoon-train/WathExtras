@@ -58,7 +58,7 @@ public class CandelabreBlock extends Block {
     public CandelabreBlock(SimpleParticleType particle,Properties properties) {
         super(properties);
         this.particle = particle;
-        this.registerDefaultState(this.stateDefinition.any().setValue(LIT, false));
+        this.registerDefaultState(this.defaultBlockState().setValue(LIT, false));
     }
 
     @Override

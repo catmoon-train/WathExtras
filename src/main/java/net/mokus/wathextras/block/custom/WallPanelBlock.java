@@ -18,7 +18,7 @@ public class WallPanelBlock extends Block {
 
     public WallPanelBlock(BlockBehaviour.Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(PART, PartType.SINGLE));
+        this.registerDefaultState(this.defaultBlockState().setValue(PART, PartType.SINGLE));
     }
 
     @Override
