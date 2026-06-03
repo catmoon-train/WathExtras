@@ -44,3 +44,113 @@ public class BenchBlock extends HorizontalFacingMountableBlock {
                 .setValue(FACING, Direction.NORTH)
                 .setValue(PART, PartType.CENTER));
     }
+
+    @Override
+    public Vec3 getNorthFacingSitPos(Level level, BlockState state, BlockPos pos) {
+        return new Vec3(0.5f, -0.5f, 0.6f);
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(FACING, PART);
+    }
+
+    @Override
+    public @Nullable BlockState getStateForPlacement(BlockPlaceContext ctx) {
+        Direction direction = ctx.getHorizontalDirection();
+        BlockPos pos = ctx.getClickedPos();
+        BlockPos leftPos = pos.relative(direction.getCounterClockWise());
+        BlockPos rightPos = pos.relative(direction.getClockWise());
+        Level level = ctx.getLevel();
+
+        if (level.getBlockState(leftPos).canBeReplaced(ctx) && level.getBlockState(rightPos).canBeReplaced(ctx)) {
+            return this.defaultBlockState().setValue(FACING, direction).setValue(PART, PartType.CENTER);
+        }
+        return null;
+    }
+
+    @Override
+    public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+        super.setPlacedBy(level, pos, state, placer, stack);
+        if (!level.isClientSide) {
+            Direction direction = state.getValue(FACING);
+            BlockPos leftPos = pos.relative(direction.getCounterClockWise());
+            BlockPos rightPos = pos.relative(direction.getClockWise());
+            level.setBlock(leftPos, state.setValue(PART, PartType.LEFT), Block.UPDATE_ALL);
+            level.setBlock(rightPos, state.setValue(PART, PartType.RIGHT), Block.UPDATE_ALL);
+        }
+    }
+
+    @Override
+    public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
+        if (!level.isClientSide) {
+            PartType part = state.getValue(PART);
+            Direction facing = state.getValue(FACING);
+            BlockPos centerPos = getCenterPos(pos, part, facing);
+            if (part != PartType.CENTER) {
+                BlockState centerState = level.getBlockState(centerPos);
+                if (centerState.is(this)) {
+                    level.destroyBlock(centerPos, !player.isCreative());
+                }
+            } else {
+                BlockPos leftPos = pos.relative(facing.getCounterClockWise());
+                BlockPos rightPos = pos.relative(facing.getClockWise());
+                level.destroyBlock(leftPos, false);
+                level.destroyBlock(rightPos, false);
+            }
+        }
+        return super.playerWillDestroy(level, pos, state, player);
+    }
+
+    @Override
+    protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+        PartType part = state.getValue(PART);
+        Direction facing = state.getValue(FACING);
+        if (part == PartType.CENTER) {
+            Direction leftDir = facing.getCounterClockWise();
+            Direction rightDir = facing.getClockWise();
+            if (direction == leftDir && !level.getBlockState(pos.relative(leftDir)).is(this)) {
+                return Blocks.AIR.defaultBlockState();
+            }
+            if (direction == rightDir && !level.getBlockState(pos.relative(rightDir)).is(this)) {
+                return Blocks.AIR.defaultBlockState();
+            }
+        } else {
+            BlockPos centerPos = getCenterPos(pos, part, facing);
+            if (!level.getBlockState(centerPos).is(this)) {
+                return Blocks.AIR.defaultBlockState();
+            }
+        }
+        return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return BOUNDING_SHAPES.get(state.getValue(FACING));
+    }
+
+    private static BlockPos getCenterPos(BlockPos pos, PartType part, Direction facing) {
+        return switch (part) {
+            case LEFT -> pos.relative(facing.getClockWise());
+            case RIGHT -> pos.relative(facing.getCounterClockWise());
+            case CENTER -> pos;
+        };
+    }
+
+    public enum PartType implements StringRepresentable {
+        LEFT("left"),
+        CENTER("center"),
+        RIGHT("right");
+
+        private final String name;
+
+        PartType(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String getSerializedName() {
+            return this.name;
+        }
+    }
+}

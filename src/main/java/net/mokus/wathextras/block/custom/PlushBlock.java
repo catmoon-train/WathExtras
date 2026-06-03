@@ -3,24 +3,24 @@ package net.mokus.wathextras.block.custom;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.block.*;
-import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.item.Equipment;
-import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.world.item.Equipable;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.state.StateManager;
+import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
-public class PlushBlock extends HorizontalFacingBlock implements Equipment {
+public class PlushBlock extends HorizontalFacingBlock implements Equipable {
     protected static final MapCodec<SoundEvent> SOUND_EVENT_CODEC = BuiltInRegistries.SOUND_EVENT
             .getCodec()
             .comapFlatMap(
@@ -37,13 +37,13 @@ public class PlushBlock extends HorizontalFacingBlock implements Equipment {
     private static final VoxelShape SHAPE = Block.box(3.0,0.0,3.0,13.0,16.0,13.0);
     protected final SoundEvent sound;
 
-    public PlushBlock(SoundEvent sound,Settings settings) {
-        super(settings);
+    public PlushBlock(SoundEvent sound,Properties properties) {
+        super(properties);
         this.sound = sound;
     }
 
     @Override
-    protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, CollisionContext context) {
+    protected VoxelShape getOutlineShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
 
@@ -54,12 +54,12 @@ public class PlushBlock extends HorizontalFacingBlock implements Equipment {
 
     @Nullable
     @Override
-    public BlockState getPlacementState(ItemPlacementContext ctx) {
+    public BlockState getStateForPlacement(BlockPlaceContext ctx) {
         return this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
     }
 
     @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder){
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder){
         builder.add(FACING);
     }
 
@@ -69,7 +69,7 @@ public class PlushBlock extends HorizontalFacingBlock implements Equipment {
     }
 
     @Override
-    protected ActionResult onUse(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+    protected ActionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
             world.playSound(
                     player,
                     pos.getX(),

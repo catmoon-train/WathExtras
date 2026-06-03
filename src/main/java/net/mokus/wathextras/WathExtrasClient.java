@@ -1,15 +1,15 @@
 package net.mokus.wathextras;
 
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
-import net.minecraft.client.render.RenderLayer;
+import net.fabricmc.fabric.api.blockRenderType.v1.BlockRenderLayerMap;
+import net.minecraft.client.renderer.RenderType;
 import net.mokus.wathextras.block.ModBlocks;
 
 public class WathExtrasClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
 
-        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(),
+        BlockRenderLayerMap.INSTANCE.putBlocks(RenderType.cutout(),
                 ModBlocks.NORA_PLUSH,
                 ModBlocks.DAVIDANDROCKET_PLUSH,
                 ModBlocks.DUCKAMOLY_PLUSH,
@@ -41,7 +41,7 @@ public class WathExtrasClient implements ClientModInitializer {
                 ModBlocks.EXPOSED_COPPER_ORNAMENT,
                 ModBlocks.OXIDIZED_COPPER_ORNAMENT,
                 ModBlocks.WEATHERED_COPPER_ORNAMENT);
-        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getTranslucent(),
+        BlockRenderLayerMap.INSTANCE.putBlocks(RenderType.translucent(),
                 ModBlocks.ROOF_LAMP,
                 ModBlocks.CHRISTMAS_LIGHTS);
 

@@ -4,14 +4,14 @@ import io.wifi.starrailexpress.content.item.CocktailItem;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.world.food.Foods;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.StandingAndWallBlockItem;
-import net.minecraft.registry.*;
+import net.minecraft.core.*;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.math.Direction;
+import net.minecraft.core.Direction;
 import net.mokus.wathextras.WathExtras;
 import net.mokus.wathextras.block.ModBlocks;
 

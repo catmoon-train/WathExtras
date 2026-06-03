@@ -1,49 +1,44 @@
 {
-	"schemaVersion": 1,
-	"id": "wathextras",
-	"version": "${version}",
-	"name": "WathExtras",
-	"description": "Adds more building blocks in the WATHE style, adapted for StarRailExpress",
-	"contributors": [
-		"_Mokus",
-		"Miss_Nora",
-		"TheRealSquidMan",
-		"Phazicle",
-		"Indigoo",
-		"verid",
-		"pencilpal",
-		"DavidAndRocket",
-		"Duckamoly"
-	],
-	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/catmoon-train/StarRailExpress"
-	},
-	"license": "CC0-1.0",
-	"icon": "assets/wathextras/icon.png",
-	"environment": "*",
-	"entrypoints": {
-		"main": [
-			"net.mokus.wathextras.WathExtras"
-		],
-		"client": [
-			"net.mokus.wathextras.WathExtrasClient"
-		],
-		"fabric-datagen": [
-			"net.mokus.wathextras.WathExtrasDataGenerator"
-		]
-	},
-	"mixins": [
-		"wathextras.mixins.json"
-	],
-	"depends": {
-		"fabricloader": ">=0.16.10",
-		"minecraft": "~1.21.1",
-		"java": ">=21",
-		"fabric-api": "*",
-		"starrailexpress": "*"
-	},
-	"suggests": {
-		"another-mod": "*"
-	}
+  "schemaVersion": 1,
+  "id": "wathextras",
+  "version": "${version}",
+  "name": "WathExtras",
+  "description": "Adds more building blocks in the WATHE style, adapted for StarRailExpress",
+  "contributors": [
+    "_Mokus",
+    "Miss_Nora",
+    "TheRealSquidMan",
+    "Phazicle",
+    "Indigoo",
+    "verid",
+    "pencilpal",
+    "DavidAndRocket",
+    "Duckamoly"
+  ],
+  "contact": {
+    "sources": "https://github.com/catmoon-train/StarRailExpress"
+  },
+  "license": "CC0-1.0",
+  "icon": "assets/wathextras/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "net.mokus.wathextras.WathExtras"
+    ],
+    "client": [
+      "net.mokus.wathextras.WathExtrasClient"
+    ],
+    "fabric-datagen": [
+      "net.mokus.wathextras.WathExtrasDataGenerator"
+    ]
+  },
+  "mixins": [
+    "wathextras.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}",
+    "starrailexpress": "*"
+  }
 }

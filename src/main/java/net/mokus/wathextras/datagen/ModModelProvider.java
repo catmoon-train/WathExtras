@@ -6,12 +6,12 @@ import io.wifi.starrailexpress.content.block.OrnamentBlock;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.data.client.*;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.Properties;
+import net.minecraft.data.models.*;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Util;
-import net.minecraft.util.math.Direction;
+import net.minecraft.Util;
+import net.minecraft.core.Direction;
 import net.mokus.wathextras.WathExtras;
 import net.mokus.wathextras.block.ModBlocks;
 import net.mokus.wathextras.block.custom.BenchBlock;
@@ -23,7 +23,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 import java.util.function.Function;
 
-import static net.minecraft.data.client.BlockStateModelGenerator.*;
+import static net.minecraft.data.models.BlockModelGenerators.*;
 
 
 public class ModModelProvider extends FabricModelProvider {
@@ -226,7 +226,7 @@ public class ModModelProvider extends FabricModelProvider {
 
         generator.blockStateCollector.accept(
                 VariantsBlockStateSupplier.create(candelabre)
-                        .coordinate(createBooleanModelMap(Properties.LIT, litModel, unlitModel))
+                        .coordinate(createBooleanModelMap(BlockStateProperties.LIT, litModel, unlitModel))
         );
 
         ResourceLocation wallUnlitModel = ResourceLocation.fromNamespaceAndPath(WathExtras.MOD_ID, "block/wall_candelabre");
@@ -234,7 +234,7 @@ public class ModModelProvider extends FabricModelProvider {
 
         generator.blockStateCollector.accept(
                 VariantsBlockStateSupplier.create(wallCandelabre)
-                        .coordinate(createBooleanModelMap(Properties.LIT, wallLitModel, wallUnlitModel))
+                        .coordinate(createBooleanModelMap(BlockStateProperties.LIT, wallLitModel, wallUnlitModel))
                         .coordinate(createEastDefaultHorizontalRotationStates())
         );
 

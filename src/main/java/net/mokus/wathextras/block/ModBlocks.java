@@ -5,11 +5,11 @@ import io.wifi.starrailexpress.content.block.PanelBlock;
 import io.wifi.starrailexpress.index.wathe_bridge.WatheBridgerBlocks;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.block.*;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.material.PushReaction;
-import net.minecraft.item.*;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.registry.*;
+import net.minecraft.world.item.*;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.*;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -443,20 +443,20 @@ public class ModBlocks {
 
     // Creative Item Group Striped Carpets
     public static final ResourceKey<CreativeModeTab> STRIPED_CARPET_KEY = ResourceKey.create(BuiltInRegistries.CREATIVE_MODE_TAB, ResourceLocation.fromNamespaceAndPath(WathExtras.MOD_ID, "striped_carpet_group"));
-    public static final ItemGroup STRIPED_CARPET = FabricCreativeModeTab.Builder()
+    public static final CreativeModeTab STRIPED_CARPET = FabricItemGroup.Builder()
             .icon(() -> new ItemStack(ModBlocks.WHITE_STRIPED_CARPET_BLOCK))
             .title(Component.translatable("buildGroup.Striped_Carpet"))
             .build();
 
     // Creative Item Group Moquettes
     public static final ResourceKey<CreativeModeTab> MOQUETTES_KEY = ResourceKey.create(BuiltInRegistries.CREATIVE_MODE_TAB, ResourceLocation.fromNamespaceAndPath(WathExtras.MOD_ID, "moquette_group"));
-    public static final ItemGroup MOQUETTES = FabricCreativeModeTab.Builder()
+    public static final CreativeModeTab MOQUETTES = FabricItemGroup.Builder()
             .icon(() -> new ItemStack(ModBlocks.YELLOW_MOQUETTE))
             .title(Component.translatable("buildGroup.Moquettes"))
             .build();
 
     public static final ResourceKey<CreativeModeTab> TMMORE_BUILDING_KEY = ResourceKey.create(BuiltInRegistries.CREATIVE_MODE_TAB, ResourceLocation.fromNamespaceAndPath(WathExtras.MOD_ID, "tmmore_building_group"));
-    public static final ItemGroup TMMORE_BUILDING = FabricCreativeModeTab.Builder()
+    public static final CreativeModeTab TMMORE_BUILDING = FabricItemGroup.Builder()
             .icon(() -> new ItemStack(ModBlocks.KHAKI_RIVETED_HULL_SMALL))
             .title(Component.translatable("buildGroup.TMMore_Building"))
             .build();

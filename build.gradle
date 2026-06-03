@@ -1,106 +1,107 @@
 plugins {
-	id 'fabric-loom' version "${loom_version}"
-	id 'maven-publish'
+    id 'fabric-loom' version '1.15-SNAPSHOT'
+    id 'maven-publish'
 }
 
 version = project.mod_version
 group = project.maven_group
 
 base {
-	archivesName = project.archives_base_name
+    archivesName = project.archives_base_name
+}
+
+loom {
+    splitEnvironmentSourceSets()
+
+    mods {
+        "wathextras" {
+            sourceSet sourceSets.main
+        }
+    }
 }
 
 repositories {
-	maven {
-		name "Modrinth"
-		url "https://api.modrinth.com/maven"
-		content {
-			includeGroup "maven.modrinth"
-		}
-	}
-	maven {
-		name "Ladysnake Mods"
-		url "https://maven.ladysnake.org/releases"
-	}
-	maven {
-		url "https://maven.uuid.gg/releases"
-		name "Datasync"
-	}
-}
-
-// Skip mixin AP processing for dependency jars to avoid conflicts
-loom {
-	mixin {
-		useLegacyMixinAp = true
-	}
+    maven {
+        name = "Ladysnake Mods"
+        url = "https://maven.ladysnake.org/releases"
+    }
+    maven {
+        name = "MaxHenkel"
+        url = "https://maven.maxhenkel.de/releases"
+    }
 }
 
 fabricApi {
-	configureDataGeneration {
-		modId = "wathextras"
-		client = true
-	}
+    configureDataGeneration {
+        modId = "wathextras"
+        client = true
+    }
 }
 
 dependencies {
-	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings loom.officialMojangMappings()
-	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-	// StarRailExpress - all wathe classes replaced by SRE equivalents
-	modCompileOnly files("../StarRailExpress/build/devlibs/star_rail_express-4.2.0-dev.jar")
+    // Fabric API
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	// SRE transitive deps
-	modImplementation "dev.upcraft.datasync:datasync-minecraft-${project.minecraft_version}-fabric:${project.datasync_version}"
-	modImplementation "dev.doctor4t:ratatouille:${project.ratatouille_version}"
-	modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-base:${project.cca_version}"
-	modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-entity:${project.cca_version}"
-	modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-world:${project.cca_version}"
-	modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-scoreboard:${project.cca_version}"
-	modImplementation "maven.modrinth:midnightlib:${project.midnightlib_version}"
-	modImplementation "maven.modrinth:sodium:${sodium_version}-fabric"
-	modImplementation "maven.modrinth:iris:${iris_version}-fabric"
+    // Ratatouille (from StarRailExpress libs)
+    modImplementation files("../StarRailExpress/libs/ratatouille-${project.ratatouille_version}.jar")
+
+    // StarRailExpress (plain compileOnly - same Mojang mappings, no remap needed)
+    compileOnly files("../StarRailExpress/build/devlibs/star_rail_express-${project.sre_version}-dev.jar")
 }
 
 // Copy SRE to run/mods for runtime
 tasks.register('copySreToRunMods', Copy) {
-	from "../StarRailExpress/build/libs/star_rail_express-4.2.0.jar"
-	into "run/mods"
+    from "../StarRailExpress/build/libs/star_rail_express-${project.sre_version}.jar"
+    into "run/mods"
 }
 tasks.named('runClient').configure { dependsOn 'copySreToRunMods' }
 
 processResources {
-	inputs.property "version", project.version
-	filesMatching("fabric.mod.json") {
-		expand "version": inputs.properties.version
-	}
+    inputs.property "version", project.version
+    inputs.property "minecraft_version", project.minecraft_version
+    inputs.property "loader_version", project.loader_version
+    filteringCharset "UTF-8"
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version,
+                "minecraft_version": project.minecraft_version,
+                "loader_version": project.loader_version
+    }
 }
 
+def targetJavaVersion = 21
 tasks.withType(JavaCompile).configureEach {
-	it.options.release = 21
+    it.options.encoding = "UTF-8"
+    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
+        it.options.release.set(targetJavaVersion)
+    }
 }
 
 java {
-	withSourcesJar()
-	sourceCompatibility = JavaVersion.VERSION_21
-	targetCompatibility = JavaVersion.VERSION_21
+    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+    }
+    withSourcesJar()
 }
 
 jar {
-	inputs.property "archivesName", project.base.archivesName
-	from("LICENSE") {
-		rename { "${it}_${inputs.properties.archivesName}"}
-	}
+    from("LICENSE") {
+        rename { "${it}_${project.archives_base_name}" }
+    }
 }
 
 publishing {
-	publications {
-		create("mavenJava", MavenPublication) {
-			artifactId = project.archives_base_name
-			from components.java
-		}
-	}
-	repositories {
-	}
+    publications {
+        create("mavenJava", MavenPublication) {
+            artifactId = project.archives_base_name
+            from components.java
+        }
+    }
+    repositories {
+    }
 }

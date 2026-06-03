@@ -8,7 +8,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipType;
+import net.minecraft.world.item.Item.Item.TooltipType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -29,7 +29,7 @@ public class KillBlockPanel extends BarrierPanelBlock {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipType options) {
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, Item.TooltipType options) {
         tooltip.add(Component.translatable("tooltip.wathextras.killblocks.panel").withColor(0x7b9aba));
         super.appendHoverText(stack, context, tooltip, options);
     }
