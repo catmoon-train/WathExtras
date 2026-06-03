@@ -60,13 +60,6 @@ dependencies {
     modImplementation files("../StarRailExpress/build/libs/star_rail_express-${project.sre_version}.jar")
 }
 
-// Copy SRE to run/mods for runtime
-tasks.register('copySreToRunMods', Copy) {
-    from "../StarRailExpress/build/libs/star_rail_express-${project.sre_version}.jar"
-    into "run/mods"
-}
-tasks.named('runClient').configure { dependsOn 'copySreToRunMods' }
-
 processResources {
     inputs.property "version", project.version
     inputs.property "minecraft_version", project.minecraft_version
