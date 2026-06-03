@@ -445,6 +445,21 @@ public class ModModelProvider extends FabricModelProvider {
             generator.createSimpleFlatItemModel(plush, model.toString());
         }
 
+        // Butterfly Door
+        ResourceLocation doorModel = TexturedModel.CUBE.create(ModBlocks.BUTTERFLY_DOOR_BLOCK, generator.modelOutput);
+        generator.blockStateOutput.accept(
+            MultiVariantGenerator.multiVariant(ModBlocks.BUTTERFLY_DOOR_BLOCK)
+                .with(PropertyDispatch.property(BlockStateProperties.HORIZONTAL_FACING)
+                    .generate(facing -> Variant.variant().with(VariantProperties.MODEL, doorModel)
+                        .with(VariantProperties.Y_ROT, switch(facing) {
+                            case EAST -> VariantProperties.Rotation.R90;
+                            case SOUTH -> VariantProperties.Rotation.R180;
+                            case WEST -> VariantProperties.Rotation.R270;
+                            default -> VariantProperties.Rotation.R0;
+                        })))
+        );
+        generator.createSimpleFlatItemModel(ModBlocks.BUTTERFLY_DOOR_BLOCK, doorModel.toString());
+
         generator.createTrivialCube(ModBlocks.PINK_CITRINE_BRICKS);
         generator.createTrivialCube(ModBlocks.POLISHED_PINK_CITRINE);
         generator.createTrivialCube(ModBlocks.SMOOTH_PINK_CITRINE);

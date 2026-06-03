@@ -20,6 +20,14 @@ loom {
     }
 }
 
+sourceSets {
+    main {
+        resources {
+            srcDir 'src/main/generated'
+        }
+    }
+}
+
 repositories {
     maven {
         name = "Ladysnake Mods"
