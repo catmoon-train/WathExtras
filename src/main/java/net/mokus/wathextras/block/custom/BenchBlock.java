@@ -40,7 +40,7 @@ public class BenchBlock extends HorizontalFacingMountableBlock {
 
     public BenchBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.defaultBlockState()
+        this.registerDefaultStateMirrored(this.getDefaultBlockState()
                 .setValue(FACING, Direction.NORTH)
                 .setValue(PART, PartType.CENTER));
     }
@@ -69,7 +69,7 @@ public class BenchBlock extends HorizontalFacingMountableBlock {
         Level level = ctx.getLevel();
 
         if (level.getBlockState(leftPos).canBeReplaced(ctx) && level.getBlockState(rightPos).canBeReplaced(ctx)) {
-            return this.defaultBlockState().setValue(FACING, direction).setValue(PART, PartType.CENTER);
+            return this.getDefaultBlockState().setValue(FACING, direction).setValue(PART, PartType.CENTER);
         }
         return null;
     }
