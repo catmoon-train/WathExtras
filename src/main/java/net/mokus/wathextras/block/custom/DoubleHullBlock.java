@@ -8,20 +8,23 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class DoubleHullBlock extends Block {
     public static final MapCodec<DoubleHullBlock> CODEC = simpleCodec(DoubleHullBlock::new);
     public static final EnumProperty<PartType> PART = EnumProperty.create("part", PartType.class);
+    public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
     public DoubleHullBlock(BlockBehaviour.Properties properties) {
         super(properties);
-        this.registerDefaultState(this.defaultBlockState().setValue(PART, PartType.LEFT));
+        this.registerDefaultState(this.defaultBlockState().setValue(PART, PartType.LEFT).setValue(FACING, Direction.NORTH));
     }
 
     @Override
@@ -31,7 +34,13 @@ public class DoubleHullBlock extends Block {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(PART);
+        builder.add(PART, FACING);
+    }
+
+    @Override
+    public BlockState getStateForPlacement(net.minecraft.world.item.context.BlockPlaceContext context) {
+        Direction dir = context.getHorizontalDirection().getOpposite();
+        return this.defaultBlockState().setValue(FACING, dir).setValue(PART, PartType.LEFT);
     }
 
     @Override
