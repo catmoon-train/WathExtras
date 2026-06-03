@@ -17,7 +17,6 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -27,8 +26,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Map;
 
 public class BenchBlock extends HorizontalFacingMountableBlock {
-    public static final MapCodec<BenchBlock> CODEC = simpleCodec(BenchBlock::new);
-    public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
+    public static final MapCodec<BenchBlock> CODEC = createSimpleCodec(BenchBlock::new);
     public static final EnumProperty<PartType> PART = EnumProperty.create("part", PartType.class);
 
     private static final Map<Direction, VoxelShape> BOUNDING_SHAPES = Maps.newEnumMap(

@@ -14,11 +14,8 @@ public class WathExtras implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-
 		ModItems.init();
 		ModBlocks.init();
 		ModSounds.init();
-
-
 	}
 }
