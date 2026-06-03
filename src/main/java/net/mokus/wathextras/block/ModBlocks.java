@@ -1,5 +1,6 @@
 package net.mokus.wathextras.block;
 
+import dev.doctor4t.ratatouille.util.registrar.BlockRegistrar;
 import io.wifi.starrailexpress.content.block.OrnamentBlock;
 import io.wifi.starrailexpress.content.block.PanelBlock;
 import io.wifi.starrailexpress.index.wathe_bridge.WatheBridgerBlocks;
@@ -22,6 +23,8 @@ import net.mokus.wathextras.item.ModItems;
 import net.mokus.wathextras.util.ModSounds;
 
 public class ModBlocks {
+
+    private static final BlockRegistrar registrar = new BlockRegistrar(WathExtras.MOD_ID);
 
 
     public static final Block CANDELABRE = registerBlock("candelabre",
@@ -435,13 +438,7 @@ public class ModBlocks {
 
 
     private static Block registerBlock(String name, Block block){
-        registerBlockItem(name,block);
-        return Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.fromNamespaceAndPath(WathExtras.MOD_ID,name),block);
-    }
-
-    private static void registerBlockItem(String name, Block block){
-        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(WathExtras.MOD_ID,name),
-                new BlockItem(block, new Item.Properties()));
+        return registrar.createWithItem(name, block);
     }
 
     // Creative Item Group Striped Carpets
@@ -468,6 +465,8 @@ public class ModBlocks {
     public static void init(){
 
         WathExtras.LOGGER.info("Weaving carpets and making blocks for " + WathExtras.MOD_ID);
+
+        registrar.registerEntries();
 
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, TMMORE_BUILDING_KEY, TMMORE_BUILDING);
         ItemGroupEvents.modifyEntriesEvent(ModBlocks.TMMORE_BUILDING_KEY).register(TMMORE_BLOCKS -> {

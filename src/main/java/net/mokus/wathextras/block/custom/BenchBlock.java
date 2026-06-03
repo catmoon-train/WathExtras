@@ -2,6 +2,7 @@ package net.mokus.wathextras.block.custom;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import com.mojang.serialization.MapCodec;
 import io.wifi.starrailexpress.content.block.HorizontalFacingMountableBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -26,6 +27,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Map;
 
 public class BenchBlock extends HorizontalFacingMountableBlock {
+    public static final MapCodec<BenchBlock> CODEC = simpleCodec(BenchBlock::new);
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
     public static final EnumProperty<PartType> PART = EnumProperty.create("part", PartType.class);
 
@@ -43,6 +45,11 @@ public class BenchBlock extends HorizontalFacingMountableBlock {
         this.registerDefaultState(this.defaultBlockState()
                 .setValue(FACING, Direction.NORTH)
                 .setValue(PART, PartType.CENTER));
+    }
+
+    @Override
+    protected MapCodec<? extends HorizontalFacingMountableBlock> codec() {
+        return CODEC;
     }
 
     @Override

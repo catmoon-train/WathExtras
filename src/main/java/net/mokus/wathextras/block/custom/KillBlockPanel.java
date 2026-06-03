@@ -1,5 +1,6 @@
 package net.mokus.wathextras.block.custom;
 
+import com.mojang.serialization.MapCodec;
 import io.wifi.starrailexpress.content.block.BarrierPanelBlock;
 import io.wifi.starrailexpress.game.GameConstants;
 import io.wifi.starrailexpress.game.GameUtils;
@@ -16,8 +17,15 @@ import net.minecraft.world.level.Level;
 import java.util.List;
 
 public class KillBlockPanel extends BarrierPanelBlock {
+    public static final MapCodec<KillBlockPanel> CODEC = simpleCodec(KillBlockPanel::new);
+
     public KillBlockPanel(Properties properties) {
         super(properties);
+    }
+
+    @Override
+    protected MapCodec<? extends BarrierPanelBlock> codec() {
+        return CODEC;
     }
 
     @Override
