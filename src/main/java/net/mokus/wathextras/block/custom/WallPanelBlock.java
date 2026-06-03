@@ -1,5 +1,6 @@
 package net.mokus.wathextras.block.custom;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.StringRepresentable;
@@ -14,11 +15,17 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class WallPanelBlock extends Block {
+    public static final MapCodec<WallPanelBlock> CODEC = simpleCodec(WallPanelBlock::new);
     public static final EnumProperty<PartType> PART = EnumProperty.create("part", PartType.class);
 
     public WallPanelBlock(BlockBehaviour.Properties properties) {
         super(properties);
         this.registerDefaultState(this.defaultBlockState().setValue(PART, PartType.SINGLE));
+    }
+
+    @Override
+    protected MapCodec<? extends Block> codec() {
+        return CODEC;
     }
 
     @Override

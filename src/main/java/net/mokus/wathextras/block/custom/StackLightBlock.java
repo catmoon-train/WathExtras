@@ -1,5 +1,6 @@
 package net.mokus.wathextras.block.custom;
 
+import com.mojang.serialization.MapCodec;
 import io.wifi.starrailexpress.index.TMMProperties;
 import io.wifi.starrailexpress.index.TMMSounds;
 import net.minecraft.core.BlockPos;
@@ -13,13 +14,13 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import java.util.function.ToIntFunction;
 
 public class StackLightBlock extends Block {
+    public static final MapCodec<StackLightBlock> CODEC = simpleCodec(StackLightBlock::new);
     public static final BooleanProperty LIT = BooleanProperty.create("lit");
     public static final BooleanProperty ACTIVE = TMMProperties.ACTIVE;
     public static final ToIntFunction<BlockState> STATE_TO_LUMINANCE = state -> state.getValue(LIT) && state.getValue(ACTIVE) ? 15 : 0;
@@ -28,6 +29,11 @@ public class StackLightBlock extends Block {
     public StackLightBlock(BlockBehaviour.Properties properties) {
         super(properties);
         this.registerDefaultState(this.defaultBlockState().setValue(LIT, false).setValue(ACTIVE, true));
+    }
+
+    @Override
+    protected MapCodec<? extends Block> codec() {
+        return CODEC;
     }
 
     @Override
