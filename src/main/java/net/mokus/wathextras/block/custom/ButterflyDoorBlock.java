@@ -25,6 +25,10 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 public class ButterflyDoorBlock extends HorizontalDirectionalBlock {
     public static final MapCodec<ButterflyDoorBlock> CODEC = simpleCodec(ButterflyDoorBlock::new);
     public static final BooleanProperty OPEN = BlockStateProperties.OPEN;
+    private static final VoxelShape SHAPE_NORTH = Block.box(0.0, 0.0, 0.0, 16.0, 16.0, 3.0);
+    private static final VoxelShape SHAPE_SOUTH = Block.box(0.0, 0.0, 13.0, 16.0, 16.0, 16.0);
+    private static final VoxelShape SHAPE_WEST = Block.box(0.0, 0.0, 0.0, 3.0, 16.0, 16.0);
+    private static final VoxelShape SHAPE_EAST = Block.box(13.0, 0.0, 0.0, 16.0, 16.0, 16.0);
 
     public ButterflyDoorBlock(BlockBehaviour.Properties properties) {
         super(properties);
@@ -43,7 +47,14 @@ public class ButterflyDoorBlock extends HorizontalDirectionalBlock {
 
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        return Block.box(0.0, 0.0, 0.0, 16.0, 16.0, 3.0);
+        Direction facing = state.getValue(FACING);
+        return switch (facing) {
+            case NORTH -> SHAPE_NORTH;
+            case SOUTH -> SHAPE_SOUTH;
+            case WEST -> SHAPE_WEST;
+            case EAST -> SHAPE_EAST;
+            default -> SHAPE_NORTH;
+        };
     }
 
     @Override
