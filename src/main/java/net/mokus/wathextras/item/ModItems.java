@@ -9,7 +9,10 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.StandingAndWallBlockItem;
 import net.minecraft.core.*;
+
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.Direction;
 import net.mokus.wathextras.WathExtras;
@@ -17,7 +20,7 @@ import net.mokus.wathextras.block.ModBlocks;
 
 public class ModItems {
 
-    public static final ResourceKey<CreativeModeTab> TMMORE_ITEM_KEY = ResourceKey.create(BuiltInRegistries.CREATIVE_MODE_TAB, ResourceLocation.fromNamespaceAndPath(WathExtras.MOD_ID, "tmmore_item_group"));
+    public static final ResourceKey<CreativeModeTab> TMMORE_ITEM_KEY = ResourceKey.create(BuiltInRegistries.CREATIVE_MODE_TAB.key(), ResourceLocation.fromNamespaceAndPath(WathExtras.MOD_ID, "tmmore_item_group"));
     public static final CreativeModeTab TMMORE_ITEM = FabricItemGroup.builder()
             .icon(() -> new ItemStack(ModItems.STRAWBERRY_MILK_GLASS))
             .title(Component.translatable("buildGroup.TMMore_Items"))
@@ -102,38 +105,38 @@ public class ModItems {
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, TMMORE_ITEM_KEY, TMMORE_ITEM);
         ItemGroupEvents.modifyEntriesEvent(ModItems.TMMORE_ITEM_KEY).register(TMMORE_ITEMS -> {
             // Cocktails
-            TMMORE_ITEMS.add(WATER_GLASS);
-            TMMORE_ITEMS.add(BEER_PINT);
-            TMMORE_ITEMS.add(MIXED_MOCKTAIL);
-            TMMORE_ITEMS.add(WHISKEY_SOUR);
-            TMMORE_ITEMS.add(MOONSHINE);
-            TMMORE_ITEMS.add(TEQUILA_SHOT);
-            TMMORE_ITEMS.add(BLENDED_BERRY_BLAST);
-            TMMORE_ITEMS.add(COTTON_SWIZZLE);
-            TMMORE_ITEMS.add(NO_BERRY_LEMON_SOUR);
-            TMMORE_ITEMS.add(SALTED_SEAFRUIT);
-            TMMORE_ITEMS.add(SAPPHIC_SUNSET);
-            TMMORE_ITEMS.add(THE_ALL_IN);
-            TMMORE_ITEMS.add(THE_CHROMATIC);
+            TMMORE_ITEMS.accept(WATER_GLASS);
+            TMMORE_ITEMS.accept(BEER_PINT);
+            TMMORE_ITEMS.accept(MIXED_MOCKTAIL);
+            TMMORE_ITEMS.accept(WHISKEY_SOUR);
+            TMMORE_ITEMS.accept(MOONSHINE);
+            TMMORE_ITEMS.accept(TEQUILA_SHOT);
+            TMMORE_ITEMS.accept(BLENDED_BERRY_BLAST);
+            TMMORE_ITEMS.accept(COTTON_SWIZZLE);
+            TMMORE_ITEMS.accept(NO_BERRY_LEMON_SOUR);
+            TMMORE_ITEMS.accept(SALTED_SEAFRUIT);
+            TMMORE_ITEMS.accept(SAPPHIC_SUNSET);
+            TMMORE_ITEMS.accept(THE_ALL_IN);
+            TMMORE_ITEMS.accept(THE_CHROMATIC);
 
             // Drink
-            TMMORE_ITEMS.add(MILK_GLASS);
-            TMMORE_ITEMS.add(STRAWBERRY_MILK_GLASS);
-            TMMORE_ITEMS.add(CHOCCY_MILK_GLASS);
-            TMMORE_ITEMS.add(HOT_CHOCOLATE);
+            TMMORE_ITEMS.accept(MILK_GLASS);
+            TMMORE_ITEMS.accept(STRAWBERRY_MILK_GLASS);
+            TMMORE_ITEMS.accept(CHOCCY_MILK_GLASS);
+            TMMORE_ITEMS.accept(HOT_CHOCOLATE);
             // Food
-            TMMORE_ITEMS.add(CAKESLICE);
-            TMMORE_ITEMS.add(GREEN_LOLLIPOP);
-            TMMORE_ITEMS.add(RED_LOLLIPOP);
-            TMMORE_ITEMS.add(YELLOW_LOLLIPOP);
-            TMMORE_ITEMS.add(BLUE_LOLLIPOP);
-            TMMORE_ITEMS.add(CANDY_CANE);
-            TMMORE_ITEMS.add(GINGERBREAD);
-            TMMORE_ITEMS.add(GINGERBREAD_CHOCO);
-            TMMORE_ITEMS.add(GINGERBREAD_DUCKAMOLY);
-            TMMORE_ITEMS.add(GINGERBREAD_NORA);
-            TMMORE_ITEMS.add(GINGERBREAD_RUDOLPH);
-            TMMORE_ITEMS.add(GINGERBREAD_SCARF);
+            TMMORE_ITEMS.accept(CAKESLICE);
+            TMMORE_ITEMS.accept(GREEN_LOLLIPOP);
+            TMMORE_ITEMS.accept(RED_LOLLIPOP);
+            TMMORE_ITEMS.accept(YELLOW_LOLLIPOP);
+            TMMORE_ITEMS.accept(BLUE_LOLLIPOP);
+            TMMORE_ITEMS.accept(CANDY_CANE);
+            TMMORE_ITEMS.accept(GINGERBREAD);
+            TMMORE_ITEMS.accept(GINGERBREAD_CHOCO);
+            TMMORE_ITEMS.accept(GINGERBREAD_DUCKAMOLY);
+            TMMORE_ITEMS.accept(GINGERBREAD_NORA);
+            TMMORE_ITEMS.accept(GINGERBREAD_RUDOLPH);
+            TMMORE_ITEMS.accept(GINGERBREAD_SCARF);
 
         });
     }

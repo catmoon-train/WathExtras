@@ -13,7 +13,7 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
     }
 
     @Override
-    protected void configure(HolderLookup.Provider wrapperLookup) {
+    protected void addTags(HolderLookup.Provider wrapperLookup) {
         getOrCreateTagBuilder(ItemTags.WEAPON_ENCHANTABLE);
 
     }

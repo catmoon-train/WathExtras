@@ -1,7 +1,7 @@
 package net.mokus.wathextras;
 
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.blockRenderType.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.minecraft.client.renderer.RenderType;
 import net.mokus.wathextras.block.ModBlocks;
 

@@ -5,7 +5,8 @@ import com.google.common.collect.Maps;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.world.level.block.*;
-import net.minecraft.world.item.BlockPlaceContext;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.sounds.SoundSource;
@@ -19,6 +20,7 @@ import net.minecraft.world.level.block.Rotation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -31,11 +33,11 @@ import java.util.function.ToIntFunction;
 
 public class WallCandelabreBlock extends CandelabreBlock{
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
-    public static final ToIntFunction<BlockState> STATE_TO_LUMINANCE = state -> state.get(LIT) ? 7 : 0;
+    public static final ToIntFunction<BlockState> STATE_TO_LUMINANCE = state -> state.getValue(LIT) ? 7 : 0;
     public static final MapCodec<WallCandelabreBlock> CODEC = RecordCodecBuilder.mapCodec(
-            instance -> instance.group(PARTICLE_TYPE_CODEC.forGetter(block -> block.particle), createSettingsCodec()).apply(instance, WallCandelabreBlock::new)
+            instance -> instance.group(PARTICLE_TYPE_CODEC.forGetter(block -> block.particle), propertiesCodec()).apply(instance, WallCandelabreBlock::new)
     );
-    public static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
+    public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
     private static final Map<Direction, VoxelShape> BOUNDING_SHAPES = Maps.newEnumMap(
             ImmutableMap.of(
                     Direction.NORTH,
@@ -52,53 +54,52 @@ public class WallCandelabreBlock extends CandelabreBlock{
 
     public WallCandelabreBlock(SimpleParticleType particle, Properties properties) {
         super(particle, properties);
-        this.setDefaultState(this.stateDefinition.getDefaultState().with(FACING, Direction.NORTH));
-        this.setDefaultState(this.stateDefinition.getDefaultState().with(LIT, false));
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(LIT, false));
     }
 
     @Override
-    protected MapCodec<? extends CandelabreBlock> getCodec() {
+    protected MapCodec<? extends CandelabreBlock> codec() {
         return CODEC;
     }
 
     @Override
-    public String getTranslationKey() {
-        return this.asItem().getTranslationKey();
+    public String getDescriptionId() {
+        return this.asItem().getDescriptionId();
     }
 
     @Override
-    protected VoxelShape getOutlineShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+    protected VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
         return getBoundingShape(state);
     }
 
     public static VoxelShape getBoundingShape(BlockState state) {
-        return BOUNDING_SHAPES.get(state.get(FACING));
+        return BOUNDING_SHAPES.get(state.getValue(FACING));
     }
 
     @Override
-    protected boolean canPlaceAt(BlockState state, LevelReader world, BlockPos pos) {
-        return canPlaceAt(world, pos, state.get(FACING));
+    protected boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
+        return canPlaceAt(world, pos, state.getValue(FACING));
     }
 
     public static boolean canPlaceAt(LevelReader world, BlockPos pos, Direction facing) {
-        BlockPos blockPos = pos.offset(facing.getOpposite());
+        BlockPos blockPos = pos.relative(facing.getOpposite());
         BlockState blockState = world.getBlockState(blockPos);
-        return blockState.isSideSolidFullSquare(world, blockPos, facing);
+        return blockState.isFaceSturdy(world, blockPos, facing);
     }
 
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext ctx) {
-        BlockState blockState = this.getDefaultState();
-        LevelReader LevelReader = ctx.getWorld();
-        BlockPos blockPos = ctx.getBlockPos();
-        Direction[] directions = ctx.getPlacementDirections();
+        BlockState blockState = this.defaultBlockState();
+        LevelReader levelReader = ctx.getLevel();
+        BlockPos blockPos = ctx.getClickedPos();
+        Direction[] directions = ctx.getNearestLookingDirections();
 
         for (Direction direction : directions) {
             if (direction.getAxis().isHorizontal()) {
                 Direction direction2 = direction.getOpposite();
-                blockState = blockState.with(FACING, direction2);
-                if (blockState.canPlaceAt(LevelReader, blockPos)) {
+                blockState = blockState.setValue(FACING, direction2);
+                if (blockState.canSurvive(levelReader, blockPos)) {
                     return blockState;
                 }
             }
@@ -108,24 +109,24 @@ public class WallCandelabreBlock extends CandelabreBlock{
     }
 
     @Override
-    protected BlockState getStateForNeighborUpdate(
+    protected BlockState updateShape(
             BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos
     ) {
-        return direction.getOpposite() == state.get(FACING) && !state.canPlaceAt(world, pos) ? Blocks.AIR.getDefaultState() : state;
+        return direction.getOpposite() == state.getValue(FACING) && !state.canSurvive(world, pos) ? Blocks.AIR.defaultBlockState() : state;
     }
 
     @Override
-    public void randomDisplayTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
         if (this.isLit(state)){
-            Direction direction = state.get(FACING);
+            Direction direction = state.getValue(FACING);
             double d = pos.getX() + 0.5;
             double e = pos.getY() + 0.6;
             double f = pos.getZ() + 0.5;
             Direction direction2 = direction.getOpposite();
 
-            double x = (d + 0.30 * direction2.getOffsetX());
+            double x = (d + 0.30 * direction2.getStepX());
             double y = e + 0.22;
-            double z = (f + 0.30 * direction2.getOffsetZ());
+            double z = (f + 0.30 * direction2.getStepZ());
 
             double zl, zr, xl, xr;
             double yB = y + 0.1;
@@ -133,49 +134,49 @@ public class WallCandelabreBlock extends CandelabreBlock{
             if (direction == Direction.EAST || direction == Direction.WEST) {
                 zl = z + 0.12;
                 zr = z - 0.12;
-                xl = x + 0.10 * direction2.getOffsetX();
-                xr = x + 0.10 * direction2.getOffsetX();
+                xl = x + 0.10 * direction2.getStepX();
+                xr = x + 0.10 * direction2.getStepX();
             } else {
-                zl = z + 0.10 * direction2.getOffsetZ();
-                zr = z + 0.10 * direction2.getOffsetZ();
+                zl = z + 0.10 * direction2.getStepZ();
+                zr = z + 0.10 * direction2.getStepZ();
                 xl = x + 0.12;
                 xr = x - 0.12;
             }
 
             //west and east needs dif calc AAAA
 
-            float ff = RandomSource.nextFloat();
+            float ff = random.nextFloat();
             if (ff < 0.3F) {
-                world.addParticle(ParticleTypes.SMOKE, x, y, z, 0.0, 0.0, 0.0);
-                world.addParticle(ParticleTypes.SMOKE, xl, yB, zr, 0.0, 0.0, 0.0);
-                world.addParticle(ParticleTypes.SMOKE, xr, yB, zr, 0.0, 0.0, 0.0);
-                if (f < 0.17F) {
-                    world.playSound(
+                level.addParticle(ParticleTypes.SMOKE, x, y, z, 0.0, 0.0, 0.0);
+                level.addParticle(ParticleTypes.SMOKE, xl, yB, zr, 0.0, 0.0, 0.0);
+                level.addParticle(ParticleTypes.SMOKE, xr, yB, zr, 0.0, 0.0, 0.0);
+                if (ff < 0.17F) {
+                    level.playSound(
+                            null,
                             x,
                             y,
                             z,
-                            SoundEvents.BLOCK_CANDLE_AMBIENT,
+                            SoundEvents.CANDLE_AMBIENT,
                             SoundSource.BLOCKS,
-                            1.0F + RandomSource.nextFloat(),
-                            RandomSource.nextFloat() * 0.7F + 0.3F,
-                            false
+                            1.0F + random.nextFloat(),
+                            random.nextFloat() * 0.7F + 0.3F
                     );
                 }
             }
-            world.addParticle(this.particle, x, y, z, 0.0, 0.0, 0.0);
-            world.addParticle(this.particle, xl, yB, zl, 0.0, 0.0, 0.0);
-            world.addParticle(this.particle, xr, yB, zr, 0.0, 0.0, 0.0);
+            level.addParticle(this.particle, x, y, z, 0.0, 0.0, 0.0);
+            level.addParticle(this.particle, xl, yB, zl, 0.0, 0.0, 0.0);
+            level.addParticle(this.particle, xr, yB, zr, 0.0, 0.0, 0.0);
         }
     }
 
     @Override
     protected BlockState rotate(BlockState state, Rotation rotation) {
-        return state.with(FACING, rotation.rotate(state.get(FACING)));
+        return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
     }
 
     @Override
     protected BlockState mirror(BlockState state, Mirror mirror) {
-        return state.rotate(mirror.getRotation(state.get(FACING)));
+        return state.rotate(mirror.getRotation(state.getValue(FACING)));
     }
 
     @Override

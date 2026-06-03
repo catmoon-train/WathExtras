@@ -16,7 +16,7 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
     }
 
     @Override
-    protected void configure(HolderLookup.Provider wrapperLookup) {
+    protected void addTags(HolderLookup.Provider wrapperLookup) {
         getOrCreateTagBuilder(BlockTags.WALLS)
                 .add(ModBlocks.KHAKI_RIVETED_HULL_SMALL_WALL)
                 .add(ModBlocks.ANTHRACITE_RIVETED_HULL_SMALL_WALL)

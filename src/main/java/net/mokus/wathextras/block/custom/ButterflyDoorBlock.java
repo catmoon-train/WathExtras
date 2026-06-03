@@ -1,5 +1,6 @@
 package net.mokus.wathextras.block.custom;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
@@ -19,9 +20,16 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class ButterflyDoorBlock extends HorizontalDirectionalBlock {
+    public static final MapCodec<ButterflyDoorBlock> CODEC = simpleCodec(ButterflyDoorBlock::new);
+
     public ButterflyDoorBlock(BlockBehaviour.Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
+    }
+
+    @Override
+    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
+        return CODEC;
     }
 
     @Override
@@ -30,7 +38,7 @@ public class ButterflyDoorBlock extends HorizontalDirectionalBlock {
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return Block.box(0.0, 0.0, 0.0, 16.0, 16.0, 3.0);
     }
 
