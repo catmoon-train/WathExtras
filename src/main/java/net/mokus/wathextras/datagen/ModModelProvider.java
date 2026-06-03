@@ -1,9 +1,6 @@
 package net.mokus.wathextras.datagen;
 
-import com.mojang.datafixers.util.Pair;
-
 import io.wifi.starrailexpress.content.block.OrnamentBlock;
-import io.wifi.starrailexpress.content.block.property.OrnamentShape;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.world.level.block.Block;
@@ -13,7 +10,6 @@ import net.minecraft.data.models.blockstates.*;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.Util;
 import net.minecraft.core.Direction;
 import net.mokus.wathextras.WathExtras;
 import net.mokus.wathextras.block.ModBlocks;
@@ -24,9 +20,6 @@ import net.mokus.wathextras.item.ModItems;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
-import java.util.function.Function;
-
-import static net.minecraft.data.models.BlockModelGenerators.*;
 
 
 public class ModModelProvider extends FabricModelProvider {

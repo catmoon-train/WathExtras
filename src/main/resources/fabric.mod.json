@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "id": "wathextras",
+  "id": "sre-wathextras",
   "version": "${version}",
-  "name": "WathExtras",
+  "name": "WathExtras (StarRailExpress Modified)",
   "description": "Adds more building blocks in the WATHE style, adapted for StarRailExpress",
   "contributors": [
     "_Mokus",

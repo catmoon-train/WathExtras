@@ -8,7 +8,6 @@ import net.mokus.wathextras.WathExtras;
 
 public class ModSounds {
 
-
     public static final SoundEvent WILLO_PLUSH = registerSound("willo_plush");
     public static final SoundEvent PICKLE_PLUSH = registerSound("pickle_plush");
     public static final SoundEvent VERID__PLUSH = registerSound("verid__plush");
@@ -23,12 +22,12 @@ public class ModSounds {
 
     public static final SoundEvent DEFAULT_PLUSH = registerSound("plush_squish");
 
-    private static SoundEvent registerSound(String name){
-        ResourceLocation id = ResourceLocation.fromNamespaceAndPath(WathExtras.MOD_ID,name);
-        return Registry.register(BuiltInRegistries.SOUND_EVENT,id,SoundEvent.createVariableRangeEvent(id));
+    private static SoundEvent registerSound(String name) {
+        ResourceLocation id = ResourceLocation.fromNamespaceAndPath(WathExtras.MOD_ID, name);
+        return Registry.register(BuiltInRegistries.SOUND_EVENT, id, SoundEvent.createVariableRangeEvent(id));
     }
 
-    public static void init(){
+    public static void init() {
 
     }
 }
