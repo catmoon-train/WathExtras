@@ -9,13 +9,12 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.level.BlockGetter;
 
-public class SmallBellBlock extends PlushBlock{
+public class SmallBellBlock extends PlushBlock {
 
     private static final VoxelShape SHAPE = Shapes.join(
-            Shapes.box(0.25,0,0.25,0.75,0.25,0.75),
-            Shapes.box(0.44,0.2,0.44,0.56,0.31,0.56),
-            BooleanOp.OR
-    );
+            Shapes.box(0.25, 0, 0.25, 0.75, 0.25, 0.75),
+            Shapes.box(0.44, 0.2, 0.44, 0.56, 0.31, 0.56),
+            BooleanOp.OR);
 
     public SmallBellBlock(SoundEvent sound, Properties properties) {
         super(sound, properties);

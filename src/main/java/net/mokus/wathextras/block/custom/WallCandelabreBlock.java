@@ -31,12 +31,12 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Map;
 import java.util.function.ToIntFunction;
 
-public class WallCandelabreBlock extends CandelabreBlock{
+public class WallCandelabreBlock extends CandelabreBlock {
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
     public static final ToIntFunction<BlockState> STATE_TO_LUMINANCE = state -> state.getValue(LIT) ? 7 : 0;
     public static final MapCodec<WallCandelabreBlock> CODEC = RecordCodecBuilder.mapCodec(
-            instance -> instance.group(PARTICLE_TYPE_CODEC.forGetter(block -> block.particle), propertiesCodec()).apply(instance, WallCandelabreBlock::new)
-    );
+            instance -> instance.group(PARTICLE_TYPE_CODEC.forGetter(block -> block.particle), propertiesCodec())
+                    .apply(instance, WallCandelabreBlock::new));
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
     private static final Map<Direction, VoxelShape> BOUNDING_SHAPES = Maps.newEnumMap(
             ImmutableMap.of(
@@ -47,10 +47,7 @@ public class WallCandelabreBlock extends CandelabreBlock{
                     Direction.WEST,
                     Block.box(11.0, 3.0, 5.5, 16.0, 13.0, 10.5),
                     Direction.EAST,
-                    Block.box(0.0, 3.0, 5.5, 5.0, 13.0, 10.5)
-            )
-    );
-
+                    Block.box(0.0, 3.0, 5.5, 5.0, 13.0, 10.5)));
 
     public WallCandelabreBlock(SimpleParticleType particle, Properties properties) {
         super(particle, properties);
@@ -110,14 +107,16 @@ public class WallCandelabreBlock extends CandelabreBlock{
 
     @Override
     protected BlockState updateShape(
-            BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos
-    ) {
-        return direction.getOpposite() == state.getValue(FACING) && !state.canSurvive(world, pos) ? Blocks.AIR.defaultBlockState() : state;
+            BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos,
+            BlockPos neighborPos) {
+        return direction.getOpposite() == state.getValue(FACING) && !state.canSurvive(world, pos)
+                ? Blocks.AIR.defaultBlockState()
+                : state;
     }
 
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
-        if (this.isLit(state)){
+        if (this.isLit(state)) {
             Direction direction = state.getValue(FACING);
             double d = pos.getX() + 0.5;
             double e = pos.getY() + 0.6;
@@ -143,7 +142,7 @@ public class WallCandelabreBlock extends CandelabreBlock{
                 xr = x - 0.12;
             }
 
-            //west and east needs dif calc AAAA
+            // west and east needs dif calc AAAA
 
             float ff = random.nextFloat();
             if (ff < 0.3F) {
@@ -159,8 +158,7 @@ public class WallCandelabreBlock extends CandelabreBlock{
                             SoundEvents.CANDLE_AMBIENT,
                             SoundSource.BLOCKS,
                             1.0F + random.nextFloat(),
-                            random.nextFloat() * 0.7F + 0.3F
-                    );
+                            random.nextFloat() * 0.7F + 0.3F);
                 }
             }
             level.addParticle(this.particle, x, y, z, 0.0, 0.0, 0.0);

@@ -6,7 +6,6 @@ import com.mojang.serialization.MapCodec;
 import io.wifi.starrailexpress.content.block.HorizontalFacingMountableBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -16,8 +15,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -27,7 +24,6 @@ import java.util.Map;
 
 public class BenchBlock extends HorizontalFacingMountableBlock {
     public static final MapCodec<BenchBlock> CODEC = createSimpleCodec(BenchBlock::new);
-    public static final EnumProperty<PartType> PART = EnumProperty.create("part", PartType.class);
 
     private static final Map<Direction, VoxelShape> BOUNDING_SHAPES = Maps.newEnumMap(
             ImmutableMap.of(
@@ -40,9 +36,7 @@ public class BenchBlock extends HorizontalFacingMountableBlock {
 
     public BenchBlock(Properties properties) {
         super(properties);
-        this.registerDefaultStateMirrored(this.getDefaultBlockState()
-                .setValue(FACING, Direction.NORTH)
-                .setValue(PART, PartType.CENTER));
+        this.registerDefaultStateMirrored(this.getDefaultBlockState());
     }
 
     @Override
@@ -53,11 +47,6 @@ public class BenchBlock extends HorizontalFacingMountableBlock {
     @Override
     public Vec3 getNorthFacingSitPos(Level level, BlockState state, BlockPos pos) {
         return new Vec3(0.5f, -0.5f, 0.6f);
-    }
-
-    @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING, PART);
     }
 
     @Override
@@ -140,22 +129,5 @@ public class BenchBlock extends HorizontalFacingMountableBlock {
             case RIGHT -> pos.relative(facing.getCounterClockWise());
             case CENTER -> pos;
         };
-    }
-
-    public enum PartType implements StringRepresentable {
-        LEFT("left"),
-        CENTER("center"),
-        RIGHT("right");
-
-        private final String name;
-
-        PartType(String name) {
-            this.name = name;
-        }
-
-        @Override
-        public String getSerializedName() {
-            return this.name;
-        }
     }
 }
