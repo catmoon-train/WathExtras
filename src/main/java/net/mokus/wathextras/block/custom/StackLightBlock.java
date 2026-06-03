@@ -1,56 +1,56 @@
 package net.mokus.wathextras.block.custom;
 
-import dev.doctor4t.wathe.index.WatheProperties;
-import dev.doctor4t.wathe.index.WatheSounds;
-import net.minecraft.block.*;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
-
+import io.wifi.starrailexpress.index.TMMProperties;
+import io.wifi.starrailexpress.index.TMMSounds;
+import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.Property;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import java.util.function.ToIntFunction;
 
 public class StackLightBlock extends Block {
-    public static final BooleanProperty LIT = Properties.LIT;
-    public static final BooleanProperty ACTIVE = WatheProperties.ACTIVE;
-    public static final ToIntFunction<BlockState> STATE_TO_LUMINANCE = state -> state.get(LIT) && state.get(ACTIVE) ? 15 : 0;
+    public static final BooleanProperty LIT = BooleanProperty.create("lit");
+    public static final BooleanProperty ACTIVE = TMMProperties.ACTIVE;
+    public static final ToIntFunction<BlockState> STATE_TO_LUMINANCE = state -> state.getValue(LIT) && state.getValue(ACTIVE) ? 15 : 0;
+    public static final VoxelShape SHAPE = Block.box(2.0, 0.0, 2.0, 14.0, 16.0, 14.0);
 
-    public StackLightBlock(Settings settings) {
-        super(settings);
-        this.setDefaultState(this.stateManager.getDefaultState().with(LIT, false).with(ACTIVE,true));
+    public StackLightBlock(BlockBehaviour.Properties properties) {
+        super(properties);
+        this.registerDefaultState(this.stateDefinition.any().setValue(LIT, false).setValue(ACTIVE, true));
     }
 
-    public static final VoxelShape SHAPE = Block.createCuboidShape(2.0, 0.0, 2.0, 14.0, 16.0, 14.0);
-
     @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(LIT, ACTIVE);
     }
 
     @Override
-    protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
 
     @Override
-    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        if (!player.shouldCancelInteraction()) {
-            boolean lit = state.get(LIT);
-            world.setBlockState(pos, state.with(LIT, !lit), Block.NOTIFY_ALL);
-            world.playSound(null, pos, WatheSounds.BLOCK_LIGHT_TOGGLE, SoundCategory.BLOCKS, 0.5f, lit ? 1f : 1.2f);
-            if (!state.get(ACTIVE)) {
-                world.playSound(player, pos, WatheSounds.BLOCK_BUTTON_TOGGLE_NO_POWER, SoundCategory.BLOCKS, 0.1f, 1f);
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+        if (!player.isSecondaryUseActive()) {
+            boolean lit = state.getValue(LIT);
+            level.setBlock(pos, state.setValue(LIT, !lit), Block.UPDATE_ALL);
+            level.playSound(null, pos, TMMSounds.BLOCK_LIGHT_TOGGLE, SoundSource.BLOCKS, 0.5f, lit ? 1f : 1.2f);
+            if (!state.getValue(ACTIVE)) {
+                level.playSound(player, pos, TMMSounds.BLOCK_BUTTON_TOGGLE_NO_POWER, SoundSource.BLOCKS, 0.1f, 1f);
             }
-            return ActionResult.success(world.isClient);
+            return InteractionResult.sidedSuccess(level.isClientSide);
         }
-        return super.onUse(state, world, pos, player, hit);
+        return super.useWithoutItem(state, level, pos, player, hit);
     }
-
 }

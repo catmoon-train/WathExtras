@@ -1,15 +1,15 @@
 package net.mokus.wathextras.datagen;
 
 import com.mojang.datafixers.util.Pair;
-import dev.doctor4t.wathe.Wathe;
-import dev.doctor4t.wathe.block.OrnamentBlock;
+
+import io.wifi.starrailexpress.content.block.OrnamentBlock;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.data.client.*;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.Direction;
 import net.mokus.wathextras.WathExtras;
@@ -37,16 +37,16 @@ public class ModModelProvider extends FabricModelProvider {
     //Literally just code from TMM, I gave up trying to use other methods to access them. PS if you have other ideas
     //PLEASE SHARE THEM
 
-    private static Model template(Identifier parent, @Nullable String variant, TextureKey... requiredTextureKeys) {
+    private static Model template(ResourceLocation parent, @Nullable String variant, TextureKey... requiredTextureKeys) {
         return new Model(Optional.of(parent), Optional.ofNullable(variant), requiredTextureKeys);
     }
 
-    private static Model template(Identifier parent, TextureKey... requiredTextureKeys) {
+    private static Model template(ResourceLocation parent, TextureKey... requiredTextureKeys) {
         return template(parent, null, requiredTextureKeys);
     }
 
     private static Model template(String parentName, TextureKey... requiredTextureKeys) {
-        return template(Wathe.id(parentName), requiredTextureKeys);
+        return template(ResourceLocation.fromNamespaceAndPath("wathe", parentName), requiredTextureKeys);
     }
 
     private BlockStateVariant rotateForFace(BlockStateVariant variant, Direction direction, boolean uvlock) {
@@ -63,14 +63,14 @@ public class ModModelProvider extends FabricModelProvider {
         return variant;
     }
     private BlockStateVariant variant() {
-        return BlockStateVariant.create();
+        return BlockStateVariant.of();
     }
 
     private <T> BlockStateVariant variant(VariantSetting<T> variantSetting, T value) {
         return this.variant().put(variantSetting, value);
     }
 
-    private BlockStateVariant model(Identifier model) {
+    private BlockStateVariant model(ResourceLocation model) {
         return this.variant(VariantSettings.MODEL, model);
     }
 
@@ -97,18 +97,18 @@ public class ModModelProvider extends FabricModelProvider {
         registerPanel(generator, block, TextureMap.getId(textureBlock));
     }
 
-    private void registerPanel(BlockStateModelGenerator generator, Block block, Identifier texture) {
+    private void registerPanel(BlockStateModelGenerator generator, Block block, ResourceLocation texture) {
         Models.GENERATED.upload(ModelIds.getItemModelId(block.asItem()), TextureMap.layer0(texture), generator.modelCollector);
-        Identifier model = PANEL.upload(block, TextureMap.all(texture), generator.modelCollector);
+        ResourceLocation model = PANEL.upload(block, TextureMap.all(texture), generator.modelCollector);
         MultipartBlockStateSupplier blockStateSupplier = MultipartBlockStateSupplier.create(block);
-        When.PropertyCondition propertyCondition = When.create();
+        When.PropertyCondition propertyCondition = When.of();
         BlockStateModelGenerator.CONNECTION_VARIANT_FUNCTIONS.stream().map(Pair::getFirst)
                 .forEach(property -> propertyCondition.set(property, false));
 
-        for (Pair<BooleanProperty, Function<Identifier, BlockStateVariant>> pair : BlockStateModelGenerator.CONNECTION_VARIANT_FUNCTIONS) {
+        for (Pair<BooleanProperty, Function<ResourceLocation, BlockStateVariant>> pair : BlockStateModelGenerator.CONNECTION_VARIANT_FUNCTIONS) {
             BooleanProperty facingProperty = pair.getFirst();
             BlockStateVariant variant = pair.getSecond().apply(model);
-            blockStateSupplier.with(When.create().set(facingProperty, true), variant);
+            blockStateSupplier.with(When.of().set(facingProperty, true), variant);
             blockStateSupplier.with(propertyCondition, variant);
         }
 
@@ -142,7 +142,7 @@ public class ModModelProvider extends FabricModelProvider {
         ORNAMENT_R270.upload(block, "_left_top_bottom", endTexture, generator.modelCollector);
         generator.registerItemModel(block, "_all");
         BlockStateVariantMap map = BlockStateVariantMap.create(OrnamentBlock.FACING, OrnamentBlock.SHAPE).register((facing, shape) ->
-                this.rotateForFace(this.model(ModelIds.getBlockSubModelId(block, "_" + shape.asString())), facing, false)
+                this.rotateForFace(this.model(ModelIds.getBlockSubModelId(block, "_" + shape.getSerializedName())), facing, false)
         );
         generator.blockStateCollector.accept(VariantsBlockStateSupplier.create(block).coordinate(map));
     }
@@ -150,7 +150,7 @@ public class ModModelProvider extends FabricModelProvider {
     //Joinked code end
 
     private static Model templateM(String parentName, TextureKey... requiredTextureKeys) {
-        return template(Identifier.of(WathExtras.MOD_ID,parentName), requiredTextureKeys);
+        return template(ResourceLocation.fromNamespaceAndPath(WathExtras.MOD_ID,parentName), requiredTextureKeys);
     }
 
     private static final Model BENCH_LEFT = templateM(
@@ -175,10 +175,10 @@ public class ModModelProvider extends FabricModelProvider {
 
     private void registerBenchBlock(BlockStateModelGenerator generator, Block block) {
         TextureMap textureMap = TextureMap.all(block);
-        Identifier leftModel = BENCH_LEFT.upload(block, "_left", textureMap, generator.modelCollector);
-        Identifier centerModel = BENCH_CENTER.upload(block, "_center", textureMap, generator.modelCollector);
-        Identifier itemModel = BENCH_ITEM.upload(block, "_item", textureMap, generator.modelCollector);
-        Identifier rightModel = BENCH_RIGHT.upload(block, "_right", textureMap, generator.modelCollector);
+        ResourceLocation leftModel = BENCH_LEFT.upload(block, "_left", textureMap, generator.modelCollector);
+        ResourceLocation centerModel = BENCH_CENTER.upload(block, "_center", textureMap, generator.modelCollector);
+        ResourceLocation itemModel = BENCH_ITEM.upload(block, "_item", textureMap, generator.modelCollector);
+        ResourceLocation rightModel = BENCH_RIGHT.upload(block, "_right", textureMap, generator.modelCollector);
 
         generator.registerParentedItemModel(block, itemModel);
 
@@ -187,11 +187,11 @@ public class ModModelProvider extends FabricModelProvider {
                         .coordinate(
                                 BlockStateVariantMap.create(BenchBlock.PART)
                                         .register(BenchBlock.PartType.LEFT,
-                                                BlockStateVariant.create().put(VariantSettings.MODEL, leftModel))
+                                                BlockStateVariant.of().put(VariantSettings.MODEL, leftModel))
                                         .register(BenchBlock.PartType.CENTER,
-                                                BlockStateVariant.create().put(VariantSettings.MODEL, centerModel))
+                                                BlockStateVariant.of().put(VariantSettings.MODEL, centerModel))
                                         .register(BenchBlock.PartType.RIGHT,
-                                                BlockStateVariant.create().put(VariantSettings.MODEL, rightModel))
+                                                BlockStateVariant.of().put(VariantSettings.MODEL, rightModel))
                         )
                         .coordinate(BlockStateModelGenerator.createSouthDefaultHorizontalRotationStates())
         );
@@ -201,8 +201,8 @@ public class ModModelProvider extends FabricModelProvider {
         TextureMap leftTextureMap = TextureMap.all(TextureMap.getSubId(block, "_left"));
         TextureMap rightTextureMap = TextureMap.all(TextureMap.getSubId(block, "_right"));
 
-        Identifier leftModel = DOUBLE_HULL_BLOCK.upload(block, "_left", leftTextureMap, generator.modelCollector);
-        Identifier rightModel = DOUBLE_HULL_BLOCK.upload(block, "_right", rightTextureMap, generator.modelCollector);
+        ResourceLocation leftModel = DOUBLE_HULL_BLOCK.upload(block, "_left", leftTextureMap, generator.modelCollector);
+        ResourceLocation rightModel = DOUBLE_HULL_BLOCK.upload(block, "_right", rightTextureMap, generator.modelCollector);
 
         generator.registerParentedItemModel(block, leftModel);
 
@@ -211,9 +211,9 @@ public class ModModelProvider extends FabricModelProvider {
                         .coordinate(
                                 BlockStateVariantMap.create(DoubleHullBlock.PART)
                                         .register(DoubleHullBlock.PartType.LEFT,
-                                                BlockStateVariant.create().put(VariantSettings.MODEL, leftModel))
+                                                BlockStateVariant.of().put(VariantSettings.MODEL, leftModel))
                                         .register(DoubleHullBlock.PartType.RIGHT,
-                                                BlockStateVariant.create().put(VariantSettings.MODEL, rightModel))
+                                                BlockStateVariant.of().put(VariantSettings.MODEL, rightModel))
                         )
                         .coordinate(BlockStateModelGenerator.createSouthDefaultHorizontalRotationStates())
         );
@@ -221,16 +221,16 @@ public class ModModelProvider extends FabricModelProvider {
 
 
     public final void registerCandelabra(BlockStateModelGenerator generator,Block candelabre, Block wallCandelabre) {
-        Identifier unlitModel = Identifier.of(WathExtras.MOD_ID, "block/candelabre");
-        Identifier litModel = Identifier.of(WathExtras.MOD_ID, "block/candelabre_lit");
+        ResourceLocation unlitModel = ResourceLocation.fromNamespaceAndPath(WathExtras.MOD_ID, "block/candelabre");
+        ResourceLocation litModel = ResourceLocation.fromNamespaceAndPath(WathExtras.MOD_ID, "block/candelabre_lit");
 
         generator.blockStateCollector.accept(
                 VariantsBlockStateSupplier.create(candelabre)
                         .coordinate(createBooleanModelMap(Properties.LIT, litModel, unlitModel))
         );
 
-        Identifier wallUnlitModel = Identifier.of(WathExtras.MOD_ID, "block/wall_candelabre");
-        Identifier wallLitModel = Identifier.of(WathExtras.MOD_ID, "block/wall_candelabre_lit");
+        ResourceLocation wallUnlitModel = ResourceLocation.fromNamespaceAndPath(WathExtras.MOD_ID, "block/wall_candelabre");
+        ResourceLocation wallLitModel = ResourceLocation.fromNamespaceAndPath(WathExtras.MOD_ID, "block/wall_candelabre_lit");
 
         generator.blockStateCollector.accept(
                 VariantsBlockStateSupplier.create(wallCandelabre)
@@ -263,11 +263,11 @@ public class ModModelProvider extends FabricModelProvider {
                 .put(TextureKey.SIDE, TextureMap.getSubId(block, "_top"))
                 .put(TextureKey.END, TextureMap.getSubId(block, "_top"));
 
-        Identifier singleModel = Models.CUBE_COLUMN.upload(block, "_single", singleTexture, generator.modelCollector);
-        Identifier topModel = Models.CUBE_COLUMN.upload(block, "_top", topTexture, generator.modelCollector);
-        Identifier middleModel = Models.CUBE_COLUMN.upload(block, "_middle", middleTexture, generator.modelCollector);
-        Identifier bottomModel = Models.CUBE_COLUMN.upload(block, "_bottom", bottomTexture, generator.modelCollector);
-        Identifier boxModel = Models.CUBE_COLUMN.upload(block, "_box", boxTexture, generator.modelCollector);
+        ResourceLocation singleModel = Models.CUBE_COLUMN.upload(block, "_single", singleTexture, generator.modelCollector);
+        ResourceLocation topModel = Models.CUBE_COLUMN.upload(block, "_top", topTexture, generator.modelCollector);
+        ResourceLocation middleModel = Models.CUBE_COLUMN.upload(block, "_middle", middleTexture, generator.modelCollector);
+        ResourceLocation bottomModel = Models.CUBE_COLUMN.upload(block, "_bottom", bottomTexture, generator.modelCollector);
+        ResourceLocation boxModel = Models.CUBE_COLUMN.upload(block, "_box", boxTexture, generator.modelCollector);
 
         generator.registerParentedItemModel(block,singleModel);
 
@@ -275,15 +275,15 @@ public class ModModelProvider extends FabricModelProvider {
                 VariantsBlockStateSupplier.create(block)
                         .coordinate(BlockStateVariantMap.create(WallPanelBlock.PART)
                                 .register(WallPanelBlock.PartType.SINGLE,
-                                        BlockStateVariant.create().put(VariantSettings.MODEL, singleModel))
+                                        BlockStateVariant.of().put(VariantSettings.MODEL, singleModel))
                                 .register(WallPanelBlock.PartType.TOP,
-                                        BlockStateVariant.create().put(VariantSettings.MODEL, topModel))
+                                        BlockStateVariant.of().put(VariantSettings.MODEL, topModel))
                                 .register(WallPanelBlock.PartType.MIDDLE,
-                                        BlockStateVariant.create().put(VariantSettings.MODEL, middleModel))
+                                        BlockStateVariant.of().put(VariantSettings.MODEL, middleModel))
                                 .register(WallPanelBlock.PartType.BOTTOM,
-                                        BlockStateVariant.create().put(VariantSettings.MODEL, bottomModel))
+                                        BlockStateVariant.of().put(VariantSettings.MODEL, bottomModel))
                                 .register(WallPanelBlock.PartType.BOX,
-                                        BlockStateVariant.create().put(VariantSettings.MODEL, boxModel))
+                                        BlockStateVariant.of().put(VariantSettings.MODEL, boxModel))
                         )
         );
     }

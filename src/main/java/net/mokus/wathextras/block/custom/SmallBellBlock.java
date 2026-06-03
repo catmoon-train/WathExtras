@@ -1,13 +1,13 @@
 package net.mokus.wathextras.block.custom;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.sound.SoundEvent;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.block.CollisionContext;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.BlockView;
+import net.minecraft.world.level.BlockGetter;
 
 public class SmallBellBlock extends PlushBlock{
 
@@ -22,7 +22,7 @@ public class SmallBellBlock extends PlushBlock{
     }
 
     @Override
-    protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
 

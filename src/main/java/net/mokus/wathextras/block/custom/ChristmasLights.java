@@ -1,78 +1,29 @@
 package net.mokus.wathextras.block.custom;
 
-import com.google.common.collect.ImmutableMap;
-import com.mojang.serialization.MapCodec;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.block.VineBlock;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.WorldView;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.VineBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class ChristmasLights extends VineBlock {
-    private static final VoxelShape UP_SHAPE = Block.createCuboidShape(0.0, 13.0, 0.0, 16.0, 15.0, 16.0);
-
-    private static final VoxelShape EAST_SHAPE = Block.createCuboidShape(0.0, 10.0, 0.0, 2.0, 15.0, 16.0);
-    private static final VoxelShape WEST_SHAPE = Block.createCuboidShape(14.0, 10.0, 0.0, 16.0, 15.0, 16.0);
-    private static final VoxelShape SOUTH_SHAPE = Block.createCuboidShape(0.0, 10.0, 0.0, 16.0, 15.0, 2.0);
-    private static final VoxelShape NORTH_SHAPE = Block.createCuboidShape(0.0, 10.0, 14.0, 16.0, 15.0, 16.0);
-    private final Map<BlockState, VoxelShape> shapesByState;
-
-
-    public ChristmasLights(Settings settings) {
-        super(settings);
-        this.shapesByState = ImmutableMap.copyOf(
-                this.stateManager
-                        .getStates()
-                        .stream()
-                        .collect(Collectors.toMap(Function.identity(), ChristmasLights::getShapeForState))
-        );
+    public ChristmasLights(BlockBehaviour.Properties properties) {
+        super(properties);
     }
 
     @Override
-    protected void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-    }
-
-    private static VoxelShape getShapeForState(BlockState state) {
-        VoxelShape voxelShape = VoxelShapes.empty();
-        if (state.get(UP)) {
-            voxelShape = UP_SHAPE;
-        }
-        if (state.get(NORTH)) {
-            voxelShape = VoxelShapes.union(voxelShape, SOUTH_SHAPE);
-        }
-        if (state.get(SOUTH)) {
-            voxelShape = VoxelShapes.union(voxelShape, NORTH_SHAPE);
-        }
-        if (state.get(EAST)) {
-            voxelShape = VoxelShapes.union(voxelShape, WEST_SHAPE);
-        }
-        if (state.get(WEST)) {
-            voxelShape = VoxelShapes.union(voxelShape, EAST_SHAPE);
-        }
-
-        return voxelShape.isEmpty() ? VoxelShapes.fullCube() : voxelShape;
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return Block.box(0.0, 0.0, 0.0, 16.0, 16.0, 16.0);
     }
 
     @Override
-    protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return this.shapesByState.get(state);
-    }
-
-    @Override
-    protected boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-        return sideCoversSmallSquare(world, pos.down(), Direction.UP);
+    protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+        return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
     }
 }

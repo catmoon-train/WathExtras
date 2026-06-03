@@ -4,27 +4,27 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.*;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.item.FlintAndSteelItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.particle.SimpleParticleType;
-import net.minecraft.registry.Registries;
-import net.minecraft.sound.SoundCategory;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ItemActionResult;
-import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.LevelAccessor;
 import net.minecraft.world.WorldView;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
@@ -50,7 +50,7 @@ public class CandelabreBlock extends Block {
 
     //BTW yes this is basically the torch code
 
-    protected static final VoxelShape SHAPE = Block.createCuboidShape(1.0, 0.0, 1.0, 15.0, 15.0, 15.0);
+    protected static final VoxelShape SHAPE = Block.box(1.0, 0.0, 1.0, 15.0, 15.0, 15.0);
     protected final SimpleParticleType particle;
     public CandelabreBlock(SimpleParticleType particle,Settings settings) {
         super(settings);
@@ -64,13 +64,13 @@ public class CandelabreBlock extends Block {
     }
 
     @Override
-    protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
 
     @Override
     protected BlockState getStateForNeighborUpdate(
-            BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos
+            BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos
     ) {
         return direction == Direction.DOWN && !this.canPlaceAt(state, world, pos)
                 ? Blocks.AIR.getDefaultState()
@@ -83,7 +83,7 @@ public class CandelabreBlock extends Block {
     }
 
     @Override
-    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
+    public void randomDisplayTick(BlockState state, Level level, BlockPos pos, Random random) {
         if (this.isLit(state)) {
             double x = pos.getX() + 0.5;
             double y = pos.getY() + 0.9;
@@ -101,7 +101,7 @@ public class CandelabreBlock extends Block {
                             y,
                             z,
                             SoundEvents.BLOCK_CANDLE_AMBIENT,
-                            SoundCategory.BLOCKS,
+                            SoundSource.BLOCKS,
                             1.0F + random.nextFloat(),
                             random.nextFloat() * 0.7F + 0.3F,
                             false
@@ -125,14 +125,14 @@ public class CandelabreBlock extends Block {
 
 
     @Override
-    protected ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+    protected ItemActionResult onUseWithItem(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, Hand hand, BlockHitResult hit) {
         ItemStack mainHand = player.getStackInHand(hand);
         if (player.getAbilities().allowModifyWorld && (mainHand.getItem() instanceof FlintAndSteelItem) && !this.isLit(state)) {
             setLit(world,state,pos,true);
-            return ItemActionResult.success(true);
+            return ItemInteractionResult.sidedSuccess(true);
         } else if (stack.isEmpty() && player.getAbilities().allowModifyWorld && this.isLit(state)) {
             extinguish(player,state,world,pos);
-            return ItemActionResult.success(true);
+            return ItemInteractionResult.sidedSuccess(true);
         }
         else {
             return super.onUseWithItem(stack, state, world, pos, player, hand, hit);
@@ -145,17 +145,17 @@ public class CandelabreBlock extends Block {
         return state.get(LIT);
     }
 
-    public static void extinguish(@Nullable PlayerEntity player, BlockState state, WorldAccess world, BlockPos pos) {
+    public static void extinguish(@Nullable Player player, BlockState state, LevelAccessor world, BlockPos pos) {
         setLit(world, state, pos, false);
         if (state.getBlock() instanceof AbstractCandleBlock) {
             world.addParticle(ParticleTypes.SMOKE, pos.getX(), pos.getY(), pos.getZ(), 0.0, 0.1F, 0.0);
         }
 
-        world.playSound(null, pos, SoundEvents.BLOCK_CANDLE_EXTINGUISH, SoundCategory.BLOCKS, 1.0F, 1.0F);
+        world.playSound(null, pos, SoundEvents.BLOCK_CANDLE_EXTINGUISH, SoundSource.BLOCKS, 1.0F, 1.0F);
         world.emitGameEvent(player, GameEvent.BLOCK_CHANGE, pos);
     }
 
-    private static void setLit(WorldAccess world, BlockState state, BlockPos pos, boolean lit) {
+    private static void setLit(LevelAccessor world, BlockState state, BlockPos pos, boolean lit) {
         world.setBlockState(pos, state.with(LIT, lit), Block.NOTIFY_ALL | Block.REDRAW_ON_MAIN_THREAD);
     }
 

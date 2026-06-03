@@ -1,63 +1,42 @@
 package net.mokus.wathextras.block.custom;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.EnumProperty;
-import net.minecraft.util.StringIdentifiable;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.world.WorldAccess;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class WallPanelBlock extends Block {
-    public static final EnumProperty<PartType> PART = EnumProperty.of("part", PartType.class);
+    public static final EnumProperty<PartType> PART = EnumProperty.create("part", PartType.class);
 
-    public WallPanelBlock(Settings settings) {
-        super(settings);
-        this.setDefaultState(this.stateManager.getDefaultState()
-                .with(PART, PartType.SINGLE));
+    public WallPanelBlock(BlockBehaviour.Properties properties) {
+        super(properties);
+        this.registerDefaultState(this.stateDefinition.any().setValue(PART, PartType.SINGLE));
     }
 
     @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(PART);
     }
 
     @Override
-    public @Nullable BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(PART, getPartType(ctx.getWorld(), ctx.getBlockPos()));
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return Block.box(0.0, 0.0, 0.0, 16.0, 16.0, 16.0);
     }
 
     @Override
-    protected BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-        if (direction == Direction.UP || direction == Direction.DOWN) {
-            return state.with(PART, getPartType(world, pos));
-        }
-
-        return state;
+    protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+        return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
     }
 
-    private PartType getPartType(WorldAccess world, BlockPos pos) {
-        BlockPos abovePos = pos.up();
-        BlockPos belowPos = pos.down();
-
-        BlockState aboveState = world.getBlockState(abovePos);
-        BlockState belowState = world.getBlockState(belowPos);
-
-        boolean hasAbove = aboveState.isOf(this);
-        boolean hasBelow = belowState.isOf(this);
-
-        return switch ((hasAbove ? 2 : 0) + (hasBelow ? 1 : 0)) {
-            case 3 -> PartType.MIDDLE;
-            case 1 -> PartType.TOP;
-            case 2 -> PartType.BOTTOM;
-            default -> PartType.SINGLE;
-        };
-    }
-
-    public enum PartType implements StringIdentifiable {
+    public enum PartType implements StringRepresentable {
         SINGLE("single"),
         TOP("top"),
         MIDDLE("middle"),
@@ -65,14 +44,8 @@ public class WallPanelBlock extends Block {
         BOX("box");
 
         private final String name;
-
-        PartType(String name) {
-            this.name = name;
-        }
-
+        PartType(String name) { this.name = name; }
         @Override
-        public String asString() {
-            return this.name;
-        }
+        public String getSerializedName() { return this.name; }
     }
 }

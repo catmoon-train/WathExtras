@@ -8,7 +8,7 @@ import net.minecraft.block.*;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.particle.SimpleParticleType;
-import net.minecraft.sound.SoundCategory;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
@@ -20,9 +20,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.LevelAccessor;
 import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 
@@ -39,13 +39,13 @@ public class WallCandelabreBlock extends CandelabreBlock{
     private static final Map<Direction, VoxelShape> BOUNDING_SHAPES = Maps.newEnumMap(
             ImmutableMap.of(
                     Direction.NORTH,
-                    Block.createCuboidShape(5.5, 3.0, 11.0, 10.5, 13.0, 16.0),
+                    Block.box(5.5, 3.0, 11.0, 10.5, 13.0, 16.0),
                     Direction.SOUTH,
-                    Block.createCuboidShape(5.5, 3.0, 0.0, 10.5, 13.0, 5.0),
+                    Block.box(5.5, 3.0, 0.0, 10.5, 13.0, 5.0),
                     Direction.WEST,
-                    Block.createCuboidShape(11.0, 3.0, 5.5, 16.0, 13.0, 10.5),
+                    Block.box(11.0, 3.0, 5.5, 16.0, 13.0, 10.5),
                     Direction.EAST,
-                    Block.createCuboidShape(0.0, 3.0, 5.5, 5.0, 13.0, 10.5)
+                    Block.box(0.0, 3.0, 5.5, 5.0, 13.0, 10.5)
             )
     );
 
@@ -67,7 +67,7 @@ public class WallCandelabreBlock extends CandelabreBlock{
     }
 
     @Override
-    protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, CollisionContext context) {
         return getBoundingShape(state);
     }
 
@@ -109,13 +109,13 @@ public class WallCandelabreBlock extends CandelabreBlock{
 
     @Override
     protected BlockState getStateForNeighborUpdate(
-            BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos
+            BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos
     ) {
         return direction.getOpposite() == state.get(FACING) && !state.canPlaceAt(world, pos) ? Blocks.AIR.getDefaultState() : state;
     }
 
     @Override
-    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
+    public void randomDisplayTick(BlockState state, Level level, BlockPos pos, Random random) {
         if (this.isLit(state)){
             Direction direction = state.get(FACING);
             double d = pos.getX() + 0.5;
@@ -155,7 +155,7 @@ public class WallCandelabreBlock extends CandelabreBlock{
                             y,
                             z,
                             SoundEvents.BLOCK_CANDLE_AMBIENT,
-                            SoundCategory.BLOCKS,
+                            SoundSource.BLOCKS,
                             1.0F + random.nextFloat(),
                             random.nextFloat() * 0.7F + 0.3F,
                             false
