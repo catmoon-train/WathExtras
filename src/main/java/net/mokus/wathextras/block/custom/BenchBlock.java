@@ -83,20 +83,57 @@ public class BenchBlock extends HorizontalFacingMountableBlock {
                     hasRight = true;
                 }
             }
+            var targetPart = PartType.CENTER;
             if (hasLeft && hasRight) {
-                state = state.setValue(PART, PartType.CENTER);
+                targetPart = PartType.CENTER;
             } else if (hasLeft) {
-                state = state.setValue(PART, PartType.RIGHT);
+                targetPart = PartType.RIGHT;
             } else if (hasRight) {
-                state = state.setValue(PART, PartType.LEFT);
+                targetPart = PartType.LEFT;
             } else {
-                state = state.setValue(PART, PartType.CENTER);
+                targetPart = PartType.CENTER;
             }
-            level.setBlock(pos, state, UPDATE_ALL);
+            if (!targetPart.equals(state.getValue(PART))) {
+                level.setBlock(pos, state.setValue(PART, targetPart), UPDATE_ALL);
+            }
         }
+    }
 
-        // 关键：再次更新中心方块，强制它重新检查邻居（防止自我销毁）
-        // level.sendBlockUpdated(pos, state, state, Block.UPDATE_ALL);
+    @Override
+    protected BlockState updateShapeMirrored(BlockState state, Direction fromDirection, BlockState neighborState,
+            LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+        PartType part = state.getValue(PART);
+        Direction direction = state.getValue(FACING);
+        BlockPos leftPos = pos.relative(direction.getCounterClockWise());
+        BlockPos rightPos = pos.relative(direction.getClockWise());
+
+        boolean hasLeft = false, hasRight = false;
+        var ls = level.getBlockState(leftPos);
+        var rs = level.getBlockState(rightPos);
+        if (ls.getBlock() instanceof BenchBlock) {
+            if (ls.getValue(FACING).equals(direction)) {
+                hasLeft = true;
+            }
+        }
+        if (rs.getBlock() instanceof BenchBlock) {
+            if (rs.getValue(FACING).equals(direction)) {
+                hasRight = true;
+            }
+        }
+        var targetPart = PartType.CENTER;
+        if (hasLeft && hasRight) {
+            targetPart = PartType.CENTER;
+        } else if (hasLeft) {
+            targetPart = PartType.RIGHT;
+        } else if (hasRight) {
+            targetPart = PartType.LEFT;
+        } else {
+            targetPart = PartType.CENTER;
+        }
+        if (!targetPart.equals(state.getValue(PART))) {
+            state = state.setValue(PART, targetPart);
+        }
+        return super.updateShapeMirrored(state, direction, neighborState, level, pos, neighborPos);
     }
 
     @Override
