@@ -30,9 +30,7 @@ public class BenchBlock extends HorizontalFacingMountableBlock {
                     Direction.NORTH, Block.box(1.0, 0.0, 0.0, 16.0, 13.0, 12.0),
                     Direction.SOUTH, Block.box(1.0, 0.0, 4.0, 16.0, 13.0, 16.0),
                     Direction.WEST, Block.box(0.0, 0.0, 1.0, 12.0, 13.0, 16),
-                    Direction.EAST, Block.box(4.0, 0.0, 1.0, 16.0, 13.0, 16)
-            )
-    );
+                    Direction.EAST, Block.box(4.0, 0.0, 1.0, 16.0, 13.0, 16)));
 
     public BenchBlock(Properties properties) {
         super(properties);
@@ -64,7 +62,8 @@ public class BenchBlock extends HorizontalFacingMountableBlock {
     }
 
     @Override
-    public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+    public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer,
+            ItemStack stack) {
         super.setPlacedBy(level, pos, state, placer, stack);
         if (!level.isClientSide) {
             Direction direction = state.getValue(FACING);
@@ -97,7 +96,8 @@ public class BenchBlock extends HorizontalFacingMountableBlock {
     }
 
     @Override
-    protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+    protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState,
+            LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
         PartType part = state.getValue(PART);
         Direction facing = state.getValue(FACING);
         if (part == PartType.CENTER) {

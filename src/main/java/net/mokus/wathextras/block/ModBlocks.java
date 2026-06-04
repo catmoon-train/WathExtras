@@ -26,20 +26,23 @@ public class ModBlocks {
 
     private static final BlockRegistrar registrar = new BlockRegistrar(WathExtras.MOD_ID);
 
-
     public static final Block CANDELABRE = registerBlock("candelabre",
             new CandelabreBlock(ParticleTypes.SMALL_FLAME,
-                    BlockBehaviour.Properties.of().instabreak().lightLevel(CandelabreBlock.STATE_TO_LUMINANCE).
-                            sound(SoundType.WOOD).pushReaction(PushReaction.DESTROY)));
+                    BlockBehaviour.Properties.of().instabreak()
+                            .lightLevel(CandelabreBlock.STATE_TO_LUMINANCE)
+                            .sound(SoundType.WOOD).pushReaction(PushReaction.DESTROY)));
     public static final Block WALL_CANDELABRE = registerBlock("wall_candelabre",
             new WallCandelabreBlock(ParticleTypes.SMALL_FLAME,
-                    BlockBehaviour.Properties.of().instabreak().lightLevel(WallCandelabreBlock.STATE_TO_LUMINANCE).
-                            sound(SoundType.WOOD).pushReaction(PushReaction.DESTROY).dropsLike(ModBlocks.CANDELABRE)));
+                    BlockBehaviour.Properties.of().instabreak()
+                            .lightLevel(WallCandelabreBlock.STATE_TO_LUMINANCE)
+                            .sound(SoundType.WOOD).pushReaction(PushReaction.DESTROY)
+                            .dropsLike(ModBlocks.CANDELABRE)));
 
     public static final Block BLEACHED_PLANKS = registerBlock("bleached_planks",
             new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS)));
     public static final Block BLEACHED_STAIRS = registerBlock("bleached_stairs",
-            new StairBlock(ModBlocks.BLEACHED_PLANKS.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS)));
+            new StairBlock(ModBlocks.BLEACHED_PLANKS.defaultBlockState(),
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS)));
     public static final Block BLEACHED_SLAB = registerBlock("bleached_slab",
             new SlabBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS)));
     public static final Block BLEACHED_WALL = registerBlock("bleached_wall",
@@ -52,7 +55,8 @@ public class ModBlocks {
     public static final Block VERAWOOD_PLANKS = registerBlock("verawood_planks",
             new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS)));
     public static final Block VERAWOOD_STAIRS = registerBlock("verawood_stairs",
-            new StairBlock(ModBlocks.VERAWOOD_PLANKS.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS)));
+            new StairBlock(ModBlocks.VERAWOOD_PLANKS.defaultBlockState(),
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS)));
     public static final Block VERAWOOD_SLAB = registerBlock("verawood_slab",
             new SlabBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS)));
     public static final Block VERAWOOD_WALL = registerBlock("verawood_wall",
@@ -62,227 +66,288 @@ public class ModBlocks {
     public static final Block VERAWOOD_FENCE = registerBlock("verawood_fence",
             new FenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE)));
 
-
     public static final Block KHAKI_RIVETED_HULL_SMALL = registerBlock("khaki_riveted_hull_small",
             new Block(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
     public static final Block KHAKI_RIVETED_HULL_SMALL_SLAB = registerBlock("khaki_riveted_hull_small_slab",
             new SlabBlock(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
     public static final Block KHAKI_RIVETED_HULL_SMALL_STAIRS = registerBlock("khaki_riveted_hull_small_stairs",
-            new StairBlock(ModBlocks.KHAKI_RIVETED_HULL_SMALL.defaultBlockState(),BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
-    public static final  Block KHAKI_RIVETED_HULL_SMALL_WALL = registerBlock("khaki_riveted_hull_small_wall",
+            new StairBlock(ModBlocks.KHAKI_RIVETED_HULL_SMALL.defaultBlockState(),
+                    BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
+    public static final Block KHAKI_RIVETED_HULL_SMALL_WALL = registerBlock("khaki_riveted_hull_small_wall",
             new WallBlock(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
-    public static final  Block KHAKI_RIVETED_HULL_SMALL_PANEL = registerBlock("khaki_riveted_hull_small_panel",
+    public static final Block KHAKI_RIVETED_HULL_SMALL_PANEL = registerBlock("khaki_riveted_hull_small_panel",
             new PanelBlock(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
     public static final Block ANTHRACITE_RIVETED_HULL_SMALL = registerBlock("anthracite_riveted_hull_small",
             new Block(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
-    public static final Block ANTHRACITE_RIVETED_HULL_SMALL_SLAB = registerBlock("anthracite_riveted_hull_small_slab",
+    public static final Block ANTHRACITE_RIVETED_HULL_SMALL_SLAB = registerBlock(
+            "anthracite_riveted_hull_small_slab",
             new SlabBlock(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
-    public static final Block ANTHRACITE_RIVETED_HULL_SMALL_STAIRS = registerBlock("anthracite_riveted_hull_small_stairs",
-            new StairBlock(ModBlocks.ANTHRACITE_RIVETED_HULL_SMALL.defaultBlockState(),BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
-    public static final  Block ANTHRACITE_RIVETED_HULL_SMALL_WALL = registerBlock("anthracite_riveted_hull_small_wall",
+    public static final Block ANTHRACITE_RIVETED_HULL_SMALL_STAIRS = registerBlock(
+            "anthracite_riveted_hull_small_stairs",
+            new StairBlock(ModBlocks.ANTHRACITE_RIVETED_HULL_SMALL.defaultBlockState(),
+                    BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
+    public static final Block ANTHRACITE_RIVETED_HULL_SMALL_WALL = registerBlock(
+            "anthracite_riveted_hull_small_wall",
             new WallBlock(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
-    public static final  Block ANTHRACITE_RIVETED_HULL_SMALL_PANEL = registerBlock("anthracite_riveted_hull_small_panel",
+    public static final Block ANTHRACITE_RIVETED_HULL_SMALL_PANEL = registerBlock(
+            "anthracite_riveted_hull_small_panel",
             new PanelBlock(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
     public static final Block BLACK_RIVETED_HULL_SMALL = registerBlock("black_riveted_hull_small",
             new Block(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
     public static final Block BLACK_RIVETED_HULL_SMALL_SLAB = registerBlock("black_riveted_hull_small_slab",
             new SlabBlock(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
     public static final Block BLACK_RIVETED_HULL_SMALL_STAIRS = registerBlock("black_riveted_hull_small_stairs",
-            new StairBlock(ModBlocks.BLACK_RIVETED_HULL_SMALL.defaultBlockState(),BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
-    public static final  Block BLACK_RIVETED_HULL_SMALL_WALL = registerBlock("black_riveted_hull_small_wall",
+            new StairBlock(ModBlocks.BLACK_RIVETED_HULL_SMALL.defaultBlockState(),
+                    BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
+    public static final Block BLACK_RIVETED_HULL_SMALL_WALL = registerBlock("black_riveted_hull_small_wall",
             new WallBlock(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
-    public static final  Block BLACK_RIVETED_HULL_SMALL_PANEL = registerBlock("black_riveted_hull_small_panel",
+    public static final Block BLACK_RIVETED_HULL_SMALL_PANEL = registerBlock("black_riveted_hull_small_panel",
             new PanelBlock(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
     public static final Block MAROON_RIVETED_HULL_SMALL = registerBlock("maroon_riveted_hull_small",
             new Block(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
     public static final Block MAROON_RIVETED_HULL_SMALL_SLAB = registerBlock("maroon_riveted_hull_small_slab",
             new SlabBlock(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
     public static final Block MAROON_RIVETED_HULL_SMALL_STAIRS = registerBlock("maroon_riveted_hull_small_stairs",
-            new StairBlock(ModBlocks.MAROON_RIVETED_HULL_SMALL.defaultBlockState(),BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
-    public static final  Block MAROON_RIVETED_HULL_SMALL_WALL = registerBlock("maroon_riveted_hull_small_wall",
+            new StairBlock(ModBlocks.MAROON_RIVETED_HULL_SMALL.defaultBlockState(),
+                    BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
+    public static final Block MAROON_RIVETED_HULL_SMALL_WALL = registerBlock("maroon_riveted_hull_small_wall",
             new WallBlock(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
-    public static final  Block MAROON_RIVETED_HULL_SMALL_PANEL = registerBlock("maroon_riveted_hull_small_panel",
+    public static final Block MAROON_RIVETED_HULL_SMALL_PANEL = registerBlock("maroon_riveted_hull_small_panel",
             new PanelBlock(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
     public static final Block MUNTZ_RIVETED_HULL_SMALL = registerBlock("muntz_riveted_hull_small",
             new Block(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
     public static final Block MUNTZ_RIVETED_HULL_SMALL_SLAB = registerBlock("muntz_riveted_hull_small_slab",
             new SlabBlock(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
     public static final Block MUNTZ_RIVETED_HULL_SMALL_STAIRS = registerBlock("muntz_riveted_hull_small_stairs",
-            new StairBlock(ModBlocks.MUNTZ_RIVETED_HULL_SMALL.defaultBlockState(),BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
-    public static final  Block MUNTZ_RIVETED_HULL_SMALL_WALL = registerBlock("muntz_riveted_hull_small_wall",
+            new StairBlock(ModBlocks.MUNTZ_RIVETED_HULL_SMALL.defaultBlockState(),
+                    BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
+    public static final Block MUNTZ_RIVETED_HULL_SMALL_WALL = registerBlock("muntz_riveted_hull_small_wall",
             new WallBlock(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
-    public static final  Block MUNTZ_RIVETED_HULL_SMALL_PANEL = registerBlock("muntz_riveted_hull_small_panel",
+    public static final Block MUNTZ_RIVETED_HULL_SMALL_PANEL = registerBlock("muntz_riveted_hull_small_panel",
             new PanelBlock(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
     public static final Block NAVY_RIVETED_HULL_SMALL = registerBlock("navy_riveted_hull_small",
             new Block(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
     public static final Block NAVY_RIVETED_HULL_SMALL_SLAB = registerBlock("navy_riveted_hull_small_slab",
             new SlabBlock(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
     public static final Block NAVY_RIVETED_HULL_SMALL_STAIRS = registerBlock("navy_riveted_hull_small_stairs",
-            new StairBlock(ModBlocks.NAVY_RIVETED_HULL_SMALL.defaultBlockState(),BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
-    public static final  Block NAVY_RIVETED_HULL_SMALL_WALL = registerBlock("navy_riveted_hull_small_wall",
+            new StairBlock(ModBlocks.NAVY_RIVETED_HULL_SMALL.defaultBlockState(),
+                    BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
+    public static final Block NAVY_RIVETED_HULL_SMALL_WALL = registerBlock("navy_riveted_hull_small_wall",
             new WallBlock(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
-    public static final  Block NAVY_RIVETED_HULL_SMALL_PANEL = registerBlock("navy_riveted_hull_small_panel",
+    public static final Block NAVY_RIVETED_HULL_SMALL_PANEL = registerBlock("navy_riveted_hull_small_panel",
             new PanelBlock(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
     public static final Block WHITE_RIVETED_HULL_SMALL = registerBlock("white_riveted_hull_small",
             new Block(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
     public static final Block WHITE_RIVETED_HULL_SMALL_SLAB = registerBlock("white_riveted_hull_small_slab",
             new SlabBlock(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
     public static final Block WHITE_RIVETED_HULL_SMALL_STAIRS = registerBlock("white_riveted_hull_small_stairs",
-            new StairBlock(ModBlocks.WHITE_RIVETED_HULL_SMALL.defaultBlockState(),BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
-    public static final  Block WHITE_RIVETED_HULL_SMALL_WALL = registerBlock("white_riveted_hull_small_wall",
+            new StairBlock(ModBlocks.WHITE_RIVETED_HULL_SMALL.defaultBlockState(),
+                    BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
+    public static final Block WHITE_RIVETED_HULL_SMALL_WALL = registerBlock("white_riveted_hull_small_wall",
             new WallBlock(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
-    public static final  Block WHITE_RIVETED_HULL_SMALL_PANEL = registerBlock("white_riveted_hull_small_panel",
+    public static final Block WHITE_RIVETED_HULL_SMALL_PANEL = registerBlock("white_riveted_hull_small_panel",
             new PanelBlock(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
 
     // Normal Moquette Blocks
     public static final Block BLACK_MOQUETTE = registerBlock("black_moquette",
-            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_WOOL).strength(-1.0f,3600000.0f)));
+            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_WOOL).strength(-1.0f, 3600000.0f)));
     public static final Block CYAN_MOQUETTE = registerBlock("cyan_moquette",
-            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.CYAN_WOOL).strength(-1.0f,3600000.0f)));
+            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.CYAN_WOOL).strength(-1.0f, 3600000.0f)));
     public static final Block GRAY_MOQUETTE = registerBlock("gray_moquette",
-            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.GRAY_WOOL).strength(-1.0f,3600000.0f)));
+            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.GRAY_WOOL).strength(-1.0f, 3600000.0f)));
     public static final Block GREEN_MOQUETTE = registerBlock("green_moquette",
-            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.GREEN_WOOL).strength(-1.0f,3600000.0f)));
+            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.GREEN_WOOL).strength(-1.0f, 3600000.0f)));
     public static final Block LIGHT_BLUE_MOQUETTE = registerBlock("light_blue_moquette",
-            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.LIGHT_BLUE_WOOL).strength(-1.0f,3600000.0f)));
+            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.LIGHT_BLUE_WOOL).strength(-1.0f,
+                    3600000.0f)));
     public static final Block LIGHT_GRAY_MOQUETTE = registerBlock("light_gray_moquette",
-            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.LIGHT_GRAY_WOOL).strength(-1.0f,3600000.0f)));
+            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.LIGHT_GRAY_WOOL).strength(-1.0f,
+                    3600000.0f)));
     public static final Block LIME_MOQUETTE = registerBlock("lime_moquette",
-            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.LIME_WOOL).strength(-1.0f,3600000.0f)));
+            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.LIME_WOOL).strength(-1.0f, 3600000.0f)));
     public static final Block MAGENTA_MOQUETTE = registerBlock("magenta_moquette",
-            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.MAGENTA_WOOL).strength(-1.0f,3600000.0f)));
+            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.MAGENTA_WOOL).strength(-1.0f,
+                    3600000.0f)));
     public static final Block ORANGE_MOQUETTE = registerBlock("orange_moquette",
-            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.ORANGE_WOOL).strength(-1.0f,3600000.0f)));
+            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.ORANGE_WOOL).strength(-1.0f,
+                    3600000.0f)));
     public static final Block PINK_MOQUETTE = registerBlock("pink_moquette",
-            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.PINK_WOOL).strength(-1.0f,3600000.0f)));
+            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.PINK_WOOL).strength(-1.0f, 3600000.0f)));
     public static final Block PURPLE_MOQUETTE = registerBlock("purple_moquette",
-            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.PURPLE_WOOL).strength(-1.0f,3600000.0f)));
+            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.PURPLE_WOOL).strength(-1.0f,
+                    3600000.0f)));
     public static final Block WHITE_MOQUETTE = registerBlock("white_moquette",
-            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.WHITE_WOOL).strength(-1.0f,3600000.0f)));
+            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.WHITE_WOOL).strength(-1.0f, 3600000.0f)));
     public static final Block YELLOW_MOQUETTE = registerBlock("yellow_moquette",
-            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.YELLOW_WOOL).strength(-1.0f,3600000.0f)));
+            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.YELLOW_WOOL).strength(-1.0f,
+                    3600000.0f)));
 
     // Start Carpets
     public static final Block BLACK_MOQUETTE_CARPET = registerBlock("black_moquette_carpet",
-            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_CARPET).strength(-1.0f,3600000.0f)));
+            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_CARPET).strength(-1.0f,
+                    3600000.0f)));
     public static final Block CYAN_MOQUETTE_CARPET = registerBlock("cyan_moquette_carpet",
-            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CYAN_CARPET).strength(-1.0f,3600000.0f)));
+            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CYAN_CARPET).strength(-1.0f,
+                    3600000.0f)));
     public static final Block GRAY_MOQUETTE_CARPET = registerBlock("gray_moquette_carpet",
-            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GRAY_CARPET).strength(-1.0f,3600000.0f)));
+            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GRAY_CARPET).strength(-1.0f,
+                    3600000.0f)));
     public static final Block GREEN_MOQUETTE_CARPET = registerBlock("green_moquette_carpet",
-            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GREEN_CARPET).strength(-1.0f,3600000.0f)));
+            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GREEN_CARPET).strength(-1.0f,
+                    3600000.0f)));
     public static final Block LIGHT_BLUE_MOQUETTE_CARPET = registerBlock("light_blue_moquette_carpet",
-            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LIGHT_BLUE_CARPET).strength(-1.0f,3600000.0f)));
+            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LIGHT_BLUE_CARPET).strength(-1.0f,
+                    3600000.0f)));
     public static final Block LIGHT_GRAY_MOQUETTE_CARPET = registerBlock("light_gray_moquette_carpet",
-            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LIGHT_GRAY_CARPET).strength(-1.0f,3600000.0f)));
+            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LIGHT_GRAY_CARPET).strength(-1.0f,
+                    3600000.0f)));
     public static final Block LIME_MOQUETTE_CARPET = registerBlock("lime_moquette_carpet",
-            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LIME_CARPET).strength(-1.0f,3600000.0f)));
+            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LIME_CARPET).strength(-1.0f,
+                    3600000.0f)));
     public static final Block MAGENTA_MOQUETTE_CARPET = registerBlock("magenta_moquette_carpet",
-            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MAGENTA_CARPET).strength(-1.0f,3600000.0f)));
+            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MAGENTA_CARPET).strength(-1.0f,
+                    3600000.0f)));
     public static final Block ORANGE_MOQUETTE_CARPET = registerBlock("orange_moquette_carpet",
-            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.ORANGE_CARPET).strength(-1.0f,3600000.0f)));
+            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.ORANGE_CARPET).strength(-1.0f,
+                    3600000.0f)));
     public static final Block PINK_MOQUETTE_CARPET = registerBlock("pink_moquette_carpet",
-            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PINK_CARPET).strength(-1.0f,3600000.0f)));
+            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PINK_CARPET).strength(-1.0f,
+                    3600000.0f)));
     public static final Block PURPLE_MOQUETTE_CARPET = registerBlock("purple_moquette_carpet",
-            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PURPLE_CARPET).strength(-1.0f,3600000.0f)));
+            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PURPLE_CARPET).strength(-1.0f,
+                    3600000.0f)));
     public static final Block WHITE_MOQUETTE_CARPET = registerBlock("white_moquette_carpet",
-            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHITE_CARPET).strength(-1.0f,3600000.0f)));
+            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHITE_CARPET).strength(-1.0f,
+                    3600000.0f)));
     public static final Block YELLOW_MOQUETTE_CARPET = registerBlock("yellow_moquette_carpet",
-            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.YELLOW_CARPET).strength(-1.0f,3600000.0f)));
+            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.YELLOW_CARPET).strength(-1.0f,
+                    3600000.0f)));
 
     // Striped Carpets
     public static final Block BLACK_STRIPED_CARPET_BLOCK = registerBlock("black_striped_carpet_block",
-            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_WOOL).strength(-1.0f,3600000.0f)));
+            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_WOOL).strength(-1.0f, 3600000.0f)));
     public static final Block CYAN_STRIPED_CARPET_BLOCK = registerBlock("cyan_striped_carpet_block",
-            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_WOOL).strength(-1.0f,3600000.0f)));
+            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_WOOL).strength(-1.0f, 3600000.0f)));
     public static final Block GRAY_STRIPED_CARPET_BLOCK = registerBlock("gray_striped_carpet_block",
-            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_WOOL).strength(-1.0f,3600000.0f)));
+            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_WOOL).strength(-1.0f, 3600000.0f)));
     public static final Block GREEN_STRIPED_CARPET_BLOCK = registerBlock("green_striped_carpet_block",
-            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_WOOL).strength(-1.0f,3600000.0f)));
-    //public static final Block LIGHT_BLUE_STRIPED_CARPET_BLOCK = registerBlock("light_blue_striped_carpet_block",
-    //        new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_WOOL).strength(-1.0f,3600000.0f)));
+            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_WOOL).strength(-1.0f, 3600000.0f)));
+    // public static final Block LIGHT_BLUE_STRIPED_CARPET_BLOCK =
+    // registerBlock("light_blue_striped_carpet_block",
+    // new
+    // Block(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_WOOL).strength(-1.0f,3600000.0f)));
     public static final Block LIGHT_GRAY_STRIPED_CARPET_BLOCK = registerBlock("light_gray_striped_carpet_block",
-            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_WOOL).strength(-1.0f,3600000.0f)));
+            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_WOOL).strength(-1.0f, 3600000.0f)));
     public static final Block LIME_STRIPED_CARPET_BLOCK = registerBlock("lime_striped_carpet_block",
-            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_WOOL).strength(-1.0f,3600000.0f)));
+            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_WOOL).strength(-1.0f, 3600000.0f)));
     public static final Block ORANGE_STRIPED_CARPET_BLOCK = registerBlock("orange_striped_carpet_block",
-            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_WOOL).strength(-1.0f,3600000.0f)));
+            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_WOOL).strength(-1.0f, 3600000.0f)));
     public static final Block PURPLE_STRIPED_CARPET_BLOCK = registerBlock("purple_striped_carpet_block",
-            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_WOOL).strength(-1.0f,3600000.0f)));
+            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_WOOL).strength(-1.0f, 3600000.0f)));
     public static final Block WHITE_STRIPED_CARPET_BLOCK = registerBlock("white_striped_carpet_block",
-            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_WOOL).strength(-1.0f,3600000.0f)));
+            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_WOOL).strength(-1.0f, 3600000.0f)));
     public static final Block YELLOW_STRIPED_CARPET_BLOCK = registerBlock("yellow_striped_carpet_block",
-            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_WOOL).strength(-1.0f,3600000.0f)));
+            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_WOOL).strength(-1.0f, 3600000.0f)));
     public static final Block BLUE_STRIPED_CARPET_BLOCK = registerBlock("blue_striped_carpet_block",
-            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_WOOL).strength(-1.0f,3600000.0f)));
+            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_WOOL).strength(-1.0f, 3600000.0f)));
     public static final Block RED_STRIPED_CARPET_BLOCK = registerBlock("red_striped_carpet_block",
-            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_WOOL).strength(-1.0f,3600000.0f)));
+            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_WOOL).strength(-1.0f, 3600000.0f)));
     public static final Block BROWN_STRIPED_CARPET_BLOCK = registerBlock("brown_striped_carpet_block",
-            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_WOOL).strength(-1.0f,3600000.0f)));
+            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_WOOL).strength(-1.0f, 3600000.0f)));
 
     // Striped Carpets
     public static final Block BLACK_STRIPED_CARPET = registerBlock("black_striped_carpet",
-            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_CARPET).strength(-1.0f,3600000.0f)));
+            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_CARPET).strength(-1.0f,
+                    3600000.0f)));
     public static final Block CYAN_STRIPED_CARPET = registerBlock("cyan_striped_carpet",
-            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_CARPET).strength(-1.0f,3600000.0f)));
+            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_CARPET).strength(-1.0f,
+                    3600000.0f)));
     public static final Block GRAY_STRIPED_CARPET = registerBlock("gray_striped_carpet",
-            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_CARPET).strength(-1.0f,3600000.0f)));
+            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_CARPET).strength(-1.0f,
+                    3600000.0f)));
     public static final Block GREEN_STRIPED_CARPET = registerBlock("green_striped_carpet",
-            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_CARPET).strength(-1.0f,3600000.0f)));
-    // public static final Block LIGHT_BLUE_STRIPED_CARPET = registerBlock("light_blue_striped_carpet",
-    //        new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_CARPET).strength(-1.0f,3600000.0f)));
+            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_CARPET).strength(-1.0f,
+                    3600000.0f)));
+    // public static final Block LIGHT_BLUE_STRIPED_CARPET =
+    // registerBlock("light_blue_striped_carpet",
+    // new
+    // CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_CARPET).strength(-1.0f,3600000.0f)));
     public static final Block LIGHT_GRAY_STRIPED_CARPET = registerBlock("light_gray_striped_carpet",
-            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_CARPET).strength(-1.0f,3600000.0f)));
+            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_CARPET).strength(-1.0f,
+                    3600000.0f)));
     public static final Block LIME_STRIPED_CARPET = registerBlock("lime_striped_carpet",
-            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_CARPET).strength(-1.0f,3600000.0f)));
+            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_CARPET).strength(-1.0f,
+                    3600000.0f)));
     public static final Block ORANGE_STRIPED_CARPET = registerBlock("orange_striped_carpet",
-            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_CARPET).strength(-1.0f,3600000.0f)));
+            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_CARPET).strength(-1.0f,
+                    3600000.0f)));
     public static final Block PURPLE_STRIPED_CARPET = registerBlock("purple_striped_carpet",
-            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_CARPET).strength(-1.0f,3600000.0f)));
+            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_CARPET).strength(-1.0f,
+                    3600000.0f)));
     public static final Block WHITE_STRIPED_CARPET = registerBlock("white_striped_carpet",
-            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_CARPET).strength(-1.0f,3600000.0f)));
+            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_CARPET).strength(-1.0f,
+                    3600000.0f)));
     public static final Block YELLOW_STRIPED_CARPET = registerBlock("yellow_striped_carpet",
-            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_CARPET).strength(-1.0f,3600000.0f)));
+            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_CARPET).strength(-1.0f,
+                    3600000.0f)));
     public static final Block BLUE_STRIPED_CARPET = registerBlock("blue_striped_carpet",
-            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_CARPET).strength(-1.0f,3600000.0f)));
+            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_CARPET).strength(-1.0f,
+                    3600000.0f)));
     public static final Block RED_STRIPED_CARPET = registerBlock("red_striped_carpet",
-            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_CARPET).strength(-1.0f,3600000.0f)));
+            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_CARPET).strength(-1.0f,
+                    3600000.0f)));
     public static final Block BROWN_STRIPED_CARPET = registerBlock("brown_striped_carpet",
-            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_CARPET).strength(-1.0f,3600000.0f)));
+            new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_CARPET).strength(-1.0f,
+                    3600000.0f)));
 
     // Dark marbles
     public static final Block DARK_MARBLE_TILE = registerBlock("dark_marble_tile",
-            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.QUARTZ_BRICKS).strength(-1.0f,3600000.0f)));
+            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.QUARTZ_BRICKS).strength(-1.0f,
+                    3600000.0f)));
     public static final Block CHECKERED_MARBLE_TILES = registerBlock("checkered_marble_tiles",
-            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.QUARTZ_BRICKS).strength(-1.0f,3600000.0f)));
+            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.QUARTZ_BRICKS).strength(-1.0f,
+                    3600000.0f)));
     public static final Block MIXED_MARBLE_TILES = registerBlock("mixed_marble_tiles",
-            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.QUARTZ_BRICKS).strength(-1.0f,3600000.0f)));
+            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.QUARTZ_BRICKS).strength(-1.0f,
+                    3600000.0f)));
     public static final Block DEEPWOKEN_TILE = registerBlock("deepwoken_tile",
-            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.QUARTZ_BRICKS).strength(-1.0f,3600000.0f)));
+            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.QUARTZ_BRICKS).strength(-1.0f,
+                    3600000.0f)));
 
     // Plushies
     public static final Block NORA_PLUSH = registerBlock("nora_plush",
-            new PlushBlock(ModSounds.NORA_PLUSH,BlockBehaviour.Properties.ofFullCopy(Blocks.RED_WOOL).noOcclusion()));
+            new PlushBlock(ModSounds.NORA_PLUSH,
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.RED_WOOL).noOcclusion()));
     public static final Block DAVIDANDROCKET_PLUSH = registerBlock("davidandrocket_plush",
-            new PlushBlock(ModSounds.DAVIDANDROCKET_PLUSH,BlockBehaviour.Properties.ofFullCopy(Blocks.ORANGE_WOOL).noOcclusion()));
+            new PlushBlock(ModSounds.DAVIDANDROCKET_PLUSH,
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.ORANGE_WOOL).noOcclusion()));
     public static final Block DUCKAMOLY_PLUSH = registerBlock("duckamoly_plush",
-            new PlushBlock(ModSounds.DUCKAMOLY_PLUSH,BlockBehaviour.Properties.ofFullCopy(Blocks.WHITE_WOOL).noOcclusion()));
+            new PlushBlock(ModSounds.DUCKAMOLY_PLUSH,
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.WHITE_WOOL).noOcclusion()));
     public static final Block PICKLE_PLUSH = registerBlock("pickle_plush",
-            new PlushBlock(ModSounds.PICKLE_PLUSH,BlockBehaviour.Properties.ofFullCopy(Blocks.PURPLE_WOOL).noOcclusion()));
+            new PlushBlock(ModSounds.PICKLE_PLUSH,
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.PURPLE_WOOL).noOcclusion()));
     public static final Block VERID__PLUSH = registerBlock("verid__plush",
-            new PlushBlock(ModSounds.VERID__PLUSH,BlockBehaviour.Properties.ofFullCopy(Blocks.WHITE_WOOL).noOcclusion()));
+            new PlushBlock(ModSounds.VERID__PLUSH,
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.WHITE_WOOL).noOcclusion()));
     public static final Block WILLO_PLUSH = registerBlock("willo_plush",
-            new PlushBlock(ModSounds.WILLO_PLUSH,BlockBehaviour.Properties.ofFullCopy(Blocks.WHITE_WOOL).noOcclusion()));
+            new PlushBlock(ModSounds.WILLO_PLUSH,
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.WHITE_WOOL).noOcclusion()));
     public static final Block MOKUS_PLUSH = registerBlock("mokus_plush",
-            new PlushBlock(ModSounds.DEFAULT_PLUSH,BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_WOOL).noOcclusion()));
+            new PlushBlock(ModSounds.DEFAULT_PLUSH,
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.BLACK_WOOL).noOcclusion()));
     public static final Block DOOGEY_PLUSH = registerBlock("doogey_plush",
-            new PlushBlock(ModSounds.DOOGEY_PLUSH,BlockBehaviour.Properties.ofFullCopy(Blocks.WHITE_WOOL).noOcclusion()));
+            new PlushBlock(ModSounds.DOOGEY_PLUSH,
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.WHITE_WOOL).noOcclusion()));
     public static final Block SQUID_PLUSH = registerBlock("squid_plush",
-            new PlushBlock(ModSounds.SQUID_PLUSH,BlockBehaviour.Properties.ofFullCopy(Blocks.WHITE_WOOL).noOcclusion()));
+            new PlushBlock(ModSounds.SQUID_PLUSH,
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.WHITE_WOOL).noOcclusion()));
     public static final Block PENCIL_PLUSH = registerBlock("pencil_plush",
-            new PlushBlock(ModSounds.PENCIL_PLUSH,BlockBehaviour.Properties.ofFullCopy(Blocks.WHITE_WOOL).noOcclusion()));
+            new PlushBlock(ModSounds.PENCIL_PLUSH,
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.WHITE_WOOL).noOcclusion()));
     public static final Block INDIGO_PLUSH = registerBlock("indigo_plush",
-            new PlushBlock(ModSounds.INDIGO_PLUSH,BlockBehaviour.Properties.ofFullCopy(Blocks.WHITE_WOOL).noOcclusion()));
+            new PlushBlock(ModSounds.INDIGO_PLUSH,
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.WHITE_WOOL).noOcclusion()));
 
     // Candy Cane
     public static final Block CANDY_CANE_BLOCK = registerBlock("candy_cane_block",
@@ -291,17 +356,17 @@ public class ModBlocks {
             new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BONE_BLOCK)));
 
     public static final Block ARCADE_FLOOR = registerBlock("arcade_floor",
-            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.GRAY_WOOL).strength(-1.0f,3600000.0f)));
+            new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.GRAY_WOOL).strength(-1.0f, 3600000.0f)));
 
     // Benches
     public static final Block PALE_BENCH = registerBlock("pale_bench",
-            new BenchBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS)));
+            new BenchBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).noOcclusion()));
     public static final Block QUEEN_BENCH = registerBlock("queen_bench",
-            new BenchBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS)));
+            new BenchBlock(BlockBehaviour.Properties.ofFullCopy(PALE_BENCH)));
     public static final Block THORN_BENCH = registerBlock("thorn_bench",
-            new BenchBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS)));
+            new BenchBlock(BlockBehaviour.Properties.ofFullCopy(PALE_BENCH)));
     public static final Block STEEL_BENCH = registerBlock("steel_bench",
-            new BenchBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS)));
+            new BenchBlock(BlockBehaviour.Properties.ofFullCopy(PALE_BENCH)));
 
     // Double Hull
     public static final Block ANTHRACITE_RIVETED_HULL = registerBlock("anthracite_riveted_hull",
@@ -320,11 +385,12 @@ public class ModBlocks {
             new DoubleHullBlock(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
 
     public static final Block STACK_LIGHTS = registerBlock("stack_lights",
-            new StackLightBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BULB).lightLevel(StackLightBlock.STATE_TO_LUMINANCE)));
+            new StackLightBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BULB)
+                    .lightLevel(StackLightBlock.STATE_TO_LUMINANCE)));
 
     public static final Block ROOF_LAMP = registerBlock("roof_lamp",
-            new RoofLampBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BULB).lightLevel(StackLightBlock.STATE_TO_LUMINANCE)));
-
+            new RoofLampBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BULB)
+                    .lightLevel(StackLightBlock.STATE_TO_LUMINANCE)));
 
     public static final Block SMOOTH_PINK_CITRINE = registerBlock("smooth_pink_citrine",
             new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.QUARTZ_BLOCK)));
@@ -340,7 +406,6 @@ public class ModBlocks {
 
     public static final Block ASPHALT = registerBlock("asphalt",
             new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.GRAVEL)));
-
 
     public static final Block BLEACHED_WALL_PANEL = registerBlock("bleached_wall_panel",
             new WallPanelBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS)));
@@ -360,10 +425,11 @@ public class ModBlocks {
     public static final Block CORRUGATED_DARK_STEEL_SLAB = registerBlock("corrugated_dark_steel_slab",
             new SlabBlock(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
     public static final Block CORRUGATED_DARK_STEEL_STAIRS = registerBlock("corrugated_dark_steel_stairs",
-            new StairBlock(ModBlocks.CORRUGATED_DARK_STEEL.defaultBlockState(),BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
-    public static final  Block CORRUGATED_DARK_STEEL_WALL = registerBlock("corrugated_dark_steel_wall",
+            new StairBlock(ModBlocks.CORRUGATED_DARK_STEEL.defaultBlockState(),
+                    BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
+    public static final Block CORRUGATED_DARK_STEEL_WALL = registerBlock("corrugated_dark_steel_wall",
             new WallBlock(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
-    public static final  Block CORRUGATED_DARK_STEEL_PANEL = registerBlock("corrugated_dark_steel_panel",
+    public static final Block CORRUGATED_DARK_STEEL_PANEL = registerBlock("corrugated_dark_steel_panel",
             new PanelBlock(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
 
     public static final Block CORRUGATED_STAINLESS_STEEL = registerBlock("corrugated_stainless_steel",
@@ -371,10 +437,11 @@ public class ModBlocks {
     public static final Block CORRUGATED_STAINLESS_STEEL_SLAB = registerBlock("corrugated_stainless_steel_slab",
             new SlabBlock(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
     public static final Block CORRUGATED_STAINLESS_STEEL_STAIRS = registerBlock("corrugated_stainless_steel_stairs",
-            new StairBlock(ModBlocks.CORRUGATED_STAINLESS_STEEL.defaultBlockState(),BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
-    public static final  Block CORRUGATED_STAINLESS_STEEL_WALL = registerBlock("corrugated_stainless_steel_wall",
+            new StairBlock(ModBlocks.CORRUGATED_STAINLESS_STEEL.defaultBlockState(),
+                    BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
+    public static final Block CORRUGATED_STAINLESS_STEEL_WALL = registerBlock("corrugated_stainless_steel_wall",
             new WallBlock(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
-    public static final  Block CORRUGATED_STAINLESS_STEEL_PANEL = registerBlock("corrugated_stainless_steel_panel",
+    public static final Block CORRUGATED_STAINLESS_STEEL_PANEL = registerBlock("corrugated_stainless_steel_panel",
             new PanelBlock(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
 
     public static final Block PERFORATED_STAINLESS_STEEL = registerBlock("perforated_stainless_steel",
@@ -382,10 +449,11 @@ public class ModBlocks {
     public static final Block PERFORATED_STAINLESS_STEEL_SLAB = registerBlock("perforated_stainless_steel_slab",
             new SlabBlock(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
     public static final Block PERFORATED_STAINLESS_STEEL_STAIRS = registerBlock("perforated_stainless_steel_stairs",
-            new StairBlock(ModBlocks.PERFORATED_STAINLESS_STEEL.defaultBlockState(),BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
-    public static final  Block PERFORATED_STAINLESS_STEEL_WALL = registerBlock("perforated_stainless_steel_wall",
+            new StairBlock(ModBlocks.PERFORATED_STAINLESS_STEEL.defaultBlockState(),
+                    BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
+    public static final Block PERFORATED_STAINLESS_STEEL_WALL = registerBlock("perforated_stainless_steel_wall",
             new WallBlock(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
-    public static final  Block PERFORATED_STAINLESS_STEEL_PANEL = registerBlock("perforated_stainless_steel_panel",
+    public static final Block PERFORATED_STAINLESS_STEEL_PANEL = registerBlock("perforated_stainless_steel_panel",
             new PanelBlock(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
 
     public static final Block PERFORATED_DARK_STEEL = registerBlock("perforated_dark_steel",
@@ -393,14 +461,16 @@ public class ModBlocks {
     public static final Block PERFORATED_DARK_STEEL_SLAB = registerBlock("perforated_dark_steel_slab",
             new SlabBlock(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
     public static final Block PERFORATED_DARK_STEEL_STAIRS = registerBlock("perforated_dark_steel_stairs",
-            new StairBlock(ModBlocks.PERFORATED_DARK_STEEL.defaultBlockState(),BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
-    public static final  Block PERFORATED_DARK_STEEL_WALL = registerBlock("perforated_dark_steel_wall",
+            new StairBlock(ModBlocks.PERFORATED_DARK_STEEL.defaultBlockState(),
+                    BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
+    public static final Block PERFORATED_DARK_STEEL_WALL = registerBlock("perforated_dark_steel_wall",
             new WallBlock(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
-    public static final  Block PERFORATED_DARK_STEEL_PANEL = registerBlock("perforated_dark_steel_panel",
+    public static final Block PERFORATED_DARK_STEEL_PANEL = registerBlock("perforated_dark_steel_panel",
             new PanelBlock(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)));
 
     public static final Block BUTTERFLY_DOOR_BLOCK = registerBlock("butterfly_door",
-            new ButterflyDoorBlock(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL).noOcclusion()));
+            new ButterflyDoorBlock(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL)
+                    .noOcclusion()));
 
     public static final Block KILL_BLOCK_PANEL = registerBlock("kill_block_panel",
             new KillBlockPanel(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.BARRIER_PANEL)));
@@ -408,7 +478,8 @@ public class ModBlocks {
             new KillBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).noOcclusion()));
 
     public static final Block SERVICE_BELL = registerBlock("service_bell",
-            new SmallBellBlock(ModSounds.SERVICE_BELL,BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.DARK_STEEL).noOcclusion()));
+            new SmallBellBlock(ModSounds.SERVICE_BELL, BlockBehaviour.Properties
+                    .ofFullCopy(WatheBridgerBlocks.DARK_STEEL).noOcclusion()));
 
     public static final Block DARK_STEEL_ORNAMENT = registerBlock("dark_steel_ornament",
             new OrnamentBlock(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.GOLD_ORNAMENT)));
@@ -429,40 +500,47 @@ public class ModBlocks {
             new OrnamentBlock(BlockBehaviour.Properties.ofFullCopy(WatheBridgerBlocks.GOLD_ORNAMENT)));
 
     public static final Block CHRISTMAS_LIGHTS = registerBlock("christmas_lights",
-            new ChristmasLights(BlockBehaviour.Properties.ofFullCopy(Blocks.VINE).sound(SoundType.COPPER_BULB).noOcclusion()));
+            new ChristmasLights(BlockBehaviour.Properties.ofFullCopy(Blocks.VINE)
+                    .sound(SoundType.COPPER_BULB).noOcclusion()));
 
     public static final Block WREATH = registerBlock("wreath",
-            new WreathBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.VINE).sound(SoundType.AZALEA_LEAVES).noOcclusion()));
+            new WreathBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.VINE).sound(SoundType.AZALEA_LEAVES)
+                    .noOcclusion()));
     public static final Block SNOWY_WREATH = registerBlock("snowy_wreath",
-            new WreathBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.VINE).sound(SoundType.AZALEA_LEAVES).noOcclusion()));
+            new WreathBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.VINE).sound(SoundType.AZALEA_LEAVES)
+                    .noOcclusion()));
 
-
-    private static Block registerBlock(String name, Block block){
+    private static Block registerBlock(String name, Block block) {
         return registrar.createWithItem(name, block);
     }
 
     // Creative Item Group Striped Carpets
-    public static final ResourceKey<CreativeModeTab> STRIPED_CARPET_KEY = ResourceKey.create(BuiltInRegistries.CREATIVE_MODE_TAB.key(), ResourceLocation.fromNamespaceAndPath(WathExtras.MOD_ID, "striped_carpet_group"));
+    public static final ResourceKey<CreativeModeTab> STRIPED_CARPET_KEY = ResourceKey.create(
+            BuiltInRegistries.CREATIVE_MODE_TAB.key(),
+            ResourceLocation.fromNamespaceAndPath(WathExtras.MOD_ID, "striped_carpet_group"));
     public static final CreativeModeTab STRIPED_CARPET = FabricItemGroup.builder()
             .icon(() -> new ItemStack(ModBlocks.WHITE_STRIPED_CARPET_BLOCK))
             .title(Component.translatable("buildGroup.Striped_Carpet"))
             .build();
 
     // Creative Item Group Moquettes
-    public static final ResourceKey<CreativeModeTab> MOQUETTES_KEY = ResourceKey.create(BuiltInRegistries.CREATIVE_MODE_TAB.key(), ResourceLocation.fromNamespaceAndPath(WathExtras.MOD_ID, "moquette_group"));
+    public static final ResourceKey<CreativeModeTab> MOQUETTES_KEY = ResourceKey.create(
+            BuiltInRegistries.CREATIVE_MODE_TAB.key(),
+            ResourceLocation.fromNamespaceAndPath(WathExtras.MOD_ID, "moquette_group"));
     public static final CreativeModeTab MOQUETTES = FabricItemGroup.builder()
             .icon(() -> new ItemStack(ModBlocks.YELLOW_MOQUETTE))
             .title(Component.translatable("buildGroup.Moquettes"))
             .build();
 
-    public static final ResourceKey<CreativeModeTab> TMMORE_BUILDING_KEY = ResourceKey.create(BuiltInRegistries.CREATIVE_MODE_TAB.key(), ResourceLocation.fromNamespaceAndPath(WathExtras.MOD_ID, "tmmore_building_group"));
+    public static final ResourceKey<CreativeModeTab> TMMORE_BUILDING_KEY = ResourceKey.create(
+            BuiltInRegistries.CREATIVE_MODE_TAB.key(),
+            ResourceLocation.fromNamespaceAndPath(WathExtras.MOD_ID, "tmmore_building_group"));
     public static final CreativeModeTab TMMORE_BUILDING = FabricItemGroup.builder()
             .icon(() -> new ItemStack(ModBlocks.KHAKI_RIVETED_HULL_SMALL))
             .title(Component.translatable("buildGroup.TMMore_Building"))
             .build();
 
-
-    public static void init(){
+    public static void init() {
 
         WathExtras.LOGGER.info("Weaving carpets and making blocks for " + WathExtras.MOD_ID);
 
@@ -557,8 +635,7 @@ public class ModBlocks {
             TMMORE_BLOCKS.accept(VERAWOOD_WALL);
             TMMORE_BLOCKS.accept(VERAWOOD_FENCE);
 
-
-            //Wall panels
+            // Wall panels
             TMMORE_BLOCKS.accept(VERAWOOD_WALL_PANEL);
             TMMORE_BLOCKS.accept(BUBINGA_WALL_PANEL);
             TMMORE_BLOCKS.accept(EBONY_WALL_PANEL);
@@ -583,7 +660,7 @@ public class ModBlocks {
 
             TMMORE_BLOCKS.accept(ARCADE_FLOOR);
 
-            //ETC NON BLOCK CONFORMING BLOCKS
+            // ETC NON BLOCK CONFORMING BLOCKS
             TMMORE_BLOCKS.accept(CHRISTMAS_LIGHTS);
             TMMORE_BLOCKS.accept(SNOWY_WREATH);
             TMMORE_BLOCKS.accept(WREATH);
@@ -600,7 +677,7 @@ public class ModBlocks {
             TMMORE_BLOCKS.accept(BUTTERFLY_DOOR_BLOCK);
             TMMORE_BLOCKS.accept(SERVICE_BELL);
 
-            //Plushies
+            // Plushies
             TMMORE_BLOCKS.accept(NORA_PLUSH);
             TMMORE_BLOCKS.accept(DAVIDANDROCKET_PLUSH);
             TMMORE_BLOCKS.accept(PICKLE_PLUSH);
@@ -613,8 +690,7 @@ public class ModBlocks {
             TMMORE_BLOCKS.accept(PENCIL_PLUSH);
             TMMORE_BLOCKS.accept(INDIGO_PLUSH);
 
-
-                });
+        });
 
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, MOQUETTES_KEY, MOQUETTES);
         ItemGroupEvents.modifyEntriesEvent(ModBlocks.MOQUETTES_KEY).register(BUILDING_BLOCKS -> {
