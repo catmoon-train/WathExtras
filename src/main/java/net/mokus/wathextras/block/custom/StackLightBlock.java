@@ -17,9 +17,10 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import io.wifi.starrailexpress.content.block.api.LightBlockInterface;
 import java.util.function.ToIntFunction;
 
-public class StackLightBlock extends Block {
+public class StackLightBlock extends Block implements LightBlockInterface{
     public static final MapCodec<StackLightBlock> CODEC = simpleCodec(StackLightBlock::new);
     public static final BooleanProperty LIT = BooleanProperty.create("lit");
     public static final BooleanProperty ACTIVE = TMMProperties.ACTIVE;
