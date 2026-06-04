@@ -4,8 +4,8 @@
 	"parent": "minecraft:block/cube_all",
 	"texture_size": [64, 64],
 	"textures": {
-		"particle": "",
-		"all": ""
+		"particle": "#all",
+		"all": "#all"
 	},
 	"elements": [
 		{

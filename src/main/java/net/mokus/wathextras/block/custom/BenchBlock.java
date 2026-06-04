@@ -48,86 +48,59 @@ public class BenchBlock extends HorizontalFacingMountableBlock {
     }
 
     @Override
-    public @Nullable BlockState getStateForPlacement(BlockPlaceContext ctx) {
-        Direction direction = ctx.getHorizontalDirection();
-        BlockPos pos = ctx.getClickedPos();
-        BlockPos leftPos = pos.relative(direction.getCounterClockWise());
-        BlockPos rightPos = pos.relative(direction.getClockWise());
-        Level level = ctx.getLevel();
+    public @Nullable BlockState getStateForPlacementMirrored(BlockPlaceContext ctx) {
+        BlockState state = this.getDefaultBlockState().setValue(FACING, ctx.getHorizontalDirection());
 
-        if (level.getBlockState(leftPos).canBeReplaced(ctx) && level.getBlockState(rightPos).canBeReplaced(ctx)) {
-            return this.getDefaultBlockState().setValue(FACING, direction).setValue(PART, PartType.CENTER);
+        Direction direction = state.getValue(FACING);
+        BlockPos pos = ctx.getClickedPos();
+        Level level = ctx.getLevel();
+        var partType = PartType.CENTER;
+        {
+            return this.getDefaultBlockState().setValue(FACING, direction).setValue(PART,
+                    partType);
         }
-        return null;
     }
 
     @Override
-    public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer,
+    public void setPlacedByMirrored(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer,
             ItemStack stack) {
-        super.setPlacedBy(level, pos, state, placer, stack);
+        super.setPlacedByMirrored(level, pos, state, placer, stack);
         if (!level.isClientSide) {
             Direction direction = state.getValue(FACING);
             BlockPos leftPos = pos.relative(direction.getCounterClockWise());
             BlockPos rightPos = pos.relative(direction.getClockWise());
-            level.setBlock(leftPos, state.setValue(PART, PartType.LEFT), Block.UPDATE_ALL);
-            level.setBlock(rightPos, state.setValue(PART, PartType.RIGHT), Block.UPDATE_ALL);
-        }
-    }
 
-    @Override
-    public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
-        if (!level.isClientSide) {
-            PartType part = state.getValue(PART);
-            Direction facing = state.getValue(FACING);
-            BlockPos centerPos = getCenterPos(pos, part, facing);
-            if (part != PartType.CENTER) {
-                BlockState centerState = level.getBlockState(centerPos);
-                if (centerState.is(this)) {
-                    level.destroyBlock(centerPos, !player.isCreative());
+            boolean hasLeft = false, hasRight = false;
+            var ls = level.getBlockState(leftPos);
+            var rs = level.getBlockState(rightPos);
+            if (ls.getBlock() instanceof BenchBlock) {
+                if (ls.getValue(FACING).equals(direction)) {
+                    hasLeft = true;
                 }
+            }
+            if (rs.getBlock() instanceof BenchBlock) {
+                if (rs.getValue(FACING).equals(direction)) {
+                    hasRight = true;
+                }
+            }
+            if (hasLeft && hasRight) {
+                state = state.setValue(PART, PartType.CENTER);
+            } else if (hasLeft) {
+                state = state.setValue(PART, PartType.RIGHT);
+            } else if (hasRight) {
+                state = state.setValue(PART, PartType.LEFT);
             } else {
-                BlockPos leftPos = pos.relative(facing.getCounterClockWise());
-                BlockPos rightPos = pos.relative(facing.getClockWise());
-                level.destroyBlock(leftPos, false);
-                level.destroyBlock(rightPos, false);
+                state = state.setValue(PART, PartType.CENTER);
             }
+            level.setBlock(pos, state, UPDATE_ALL);
         }
-        return super.playerWillDestroy(level, pos, state, player);
-    }
 
-    @Override
-    protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState,
-            LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
-        PartType part = state.getValue(PART);
-        Direction facing = state.getValue(FACING);
-        if (part == PartType.CENTER) {
-            Direction leftDir = facing.getCounterClockWise();
-            Direction rightDir = facing.getClockWise();
-            if (direction == leftDir && !level.getBlockState(pos.relative(leftDir)).is(this)) {
-                return Blocks.AIR.defaultBlockState();
-            }
-            if (direction == rightDir && !level.getBlockState(pos.relative(rightDir)).is(this)) {
-                return Blocks.AIR.defaultBlockState();
-            }
-        } else {
-            BlockPos centerPos = getCenterPos(pos, part, facing);
-            if (!level.getBlockState(centerPos).is(this)) {
-                return Blocks.AIR.defaultBlockState();
-            }
-        }
-        return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
+        // 关键：再次更新中心方块，强制它重新检查邻居（防止自我销毁）
+        // level.sendBlockUpdated(pos, state, state, Block.UPDATE_ALL);
     }
 
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return BOUNDING_SHAPES.get(state.getValue(FACING));
-    }
-
-    private static BlockPos getCenterPos(BlockPos pos, PartType part, Direction facing) {
-        return switch (part) {
-            case LEFT -> pos.relative(facing.getClockWise());
-            case RIGHT -> pos.relative(facing.getCounterClockWise());
-            case CENTER -> pos;
-        };
     }
 }

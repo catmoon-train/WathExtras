@@ -9,8 +9,8 @@
 	"elements": [
 		{
 			"name": "Back Plane",
-			"from": [-0.9, 7.9, 14.5],
-			"to": [14.1, 23.9, 14.5],
+			"from": [0, 7.9, 14.5],
+			"to": [14, 23.9, 14.5],
 			"rotation": {"angle": 22.5, "axis": "x", "origin": [-0.9, 7.9, 15.5]},
 			"faces": {
 				"north": {"uv": [0, 0, 3.75, 4], "texture": "#all"},
@@ -28,8 +28,8 @@
 			}
 		},
 		{
-			"from": [-0.9, 7.9, 4],
-			"to": [13.3, 8.9, 6],
+			"from": [0, 7.9, 4],
+			"to": [14, 8.9, 6],
 			"rotation": {"angle": 0, "axis": "y", "origin": [-0.9, 7.9, 4]},
 			"faces": {
 				"north": {"uv": [7, 5, 10.5, 5.25], "texture": "#all"},
@@ -41,8 +41,8 @@
 			}
 		},
 		{
-			"from": [-0.9, 7.9, 7],
-			"to": [13.3, 8.9, 9],
+			"from": [0, 7.9, 7],
+			"to": [14, 8.9, 9],
 			"rotation": {"angle": 0, "axis": "y", "origin": [-0.9, 7.9, 7]},
 			"faces": {
 				"north": {"uv": [7, 5.5, 10.5, 5.75], "texture": "#all"},
@@ -54,8 +54,8 @@
 			}
 		},
 		{
-			"from": [-0.9, 7.9, 10],
-			"to": [13.3, 8.9, 12],
+			"from": [0, 7.9, 10],
+			"to": [14, 8.9, 12],
 			"rotation": {"angle": 0, "axis": "y", "origin": [-0.9, 7.9, 10]},
 			"faces": {
 				"north": {"uv": [7.5, 3.25, 11, 3.5], "texture": "#all"},
@@ -67,8 +67,8 @@
 			}
 		},
 		{
-			"from": [-0.9, 7.9, 13],
-			"to": [13.3, 8.9, 15],
+			"from": [0, 7.9, 13],
+			"to": [14, 8.9, 15],
 			"rotation": {"angle": 0, "axis": "y", "origin": [-0.9, 7.9, 13]},
 			"faces": {
 				"north": {"uv": [7.75, 7.5, 11.25, 7.75], "texture": "#all"},
@@ -227,34 +227,40 @@
 		{
 			"name": "All",
 			"origin": [16.325, 8.4, 1.8],
+			"scope": 0,
 			"color": 0,
 			"children": [
 				{
 					"name": "Planes",
 					"origin": [16.325, 8.4, 1.8],
+					"scope": 0,
 					"color": 0,
 					"children": [0, 1]
 				},
 				{
 					"name": "Bench",
 					"origin": [0, 7.9, 0],
+					"scope": 0,
 					"color": 0,
 					"children": [
 						{
 							"name": "Wood",
 							"origin": [0, 7.9, 4],
+							"scope": 0,
 							"color": 0,
 							"children": [2, 3, 4, 5]
 						},
 						{
 							"name": "Blue",
 							"origin": [16.325, 16.1, 7.6],
+							"scope": 0,
 							"color": 0,
 							"children": [6, 7, 8, 9]
 						},
 						{
 							"name": "Black",
 							"origin": [16.325, 11, 4.7],
+							"scope": 0,
 							"color": 0,
 							"children": [10, 11, 12, 13, 14, 15, 16]
 						}
