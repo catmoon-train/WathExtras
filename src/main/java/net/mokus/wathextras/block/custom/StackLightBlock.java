@@ -22,8 +22,6 @@ import java.util.function.ToIntFunction;
 
 public class StackLightBlock extends Block implements LightBlockInterface{
     public static final MapCodec<StackLightBlock> CODEC = simpleCodec(StackLightBlock::new);
-    public static final BooleanProperty LIT = BooleanProperty.create("lit");
-    public static final BooleanProperty ACTIVE = TMMProperties.ACTIVE;
     public static final ToIntFunction<BlockState> STATE_TO_LUMINANCE = state -> state.getValue(LIT) && state.getValue(ACTIVE) ? 15 : 0;
     public static final VoxelShape SHAPE = Block.box(2.0, 0.0, 2.0, 14.0, 16.0, 14.0);
 
