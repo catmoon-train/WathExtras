@@ -66,11 +66,22 @@ public class WallCandelabreBlock extends CandelabreBlock {
 
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
-        return getBoundingShape(state);
+        return BOUNDING_SHAPES.getOrDefault(state.getValue(FACING), Block.box(5.5, 3.0, 0.0, 10.5, 13.0, 16.0));
     }
 
-    public static VoxelShape getBoundingShape(BlockState state) {
-        return BOUNDING_SHAPES.get(state.getValue(FACING));
+    @Override
+    protected VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+        return BOUNDING_SHAPES.getOrDefault(state.getValue(FACING), Block.box(5.5, 3.0, 0.0, 10.5, 13.0, 16.0));
+    }
+
+    @Override
+    protected VoxelShape getOcclusionShape(BlockState state, BlockGetter world, BlockPos pos) {
+        return BOUNDING_SHAPES.getOrDefault(state.getValue(FACING), Block.box(5.5, 3.0, 0.0, 10.5, 13.0, 16.0));
+    }
+
+    @Override
+    protected VoxelShape getVisualShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+        return BOUNDING_SHAPES.getOrDefault(state.getValue(FACING), Block.box(5.5, 3.0, 0.0, 10.5, 13.0, 16.0));
     }
 
     @Override
