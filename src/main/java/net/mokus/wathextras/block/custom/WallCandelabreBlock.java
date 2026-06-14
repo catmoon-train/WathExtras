@@ -49,6 +49,9 @@ public class WallCandelabreBlock extends CandelabreBlock {
                     Direction.EAST,
                     Block.box(0.0, 3.0, 5.5, 5.0, 13.0, 10.5)));
 
+    // Recursion guard: prevent StackOverflow when shape computation triggers re-entrant calls
+    private static final ThreadLocal<Boolean> COMPUTING_SHAPE = ThreadLocal.withInitial(() -> false);
+
     public WallCandelabreBlock(SimpleParticleType particle, Properties properties) {
         super(particle, properties);
         this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.NORTH).setValue(LIT, false));
@@ -59,29 +62,75 @@ public class WallCandelabreBlock extends CandelabreBlock {
         return CODEC;
     }
 
-    @Override
-    public String getDescriptionId() {
-        return this.asItem().getDescriptionId();
+    /**
+     * Fixed: Removed getDescriptionId() override that caused infinite recursion.
+     * The old code called this.asItem().getDescriptionId(), but BlockItem.getDescriptionId()
+     * calls back to this.getBlock().getDescriptionId(), forming a deadly cycle:
+     *   WallCandelabreBlock.getDescriptionId() -> asItem().getDescriptionId()
+     *   -> BlockItem.getDescriptionId() -> block.getDescriptionId() -> back to start
+     * The default Block.getDescriptionId() already returns the correct translation key.
+     */
+
+    /**
+     * Get shape for the given facing direction, with recursion guard to prevent
+     * StackOverflowError when the Minecraft block shape system triggers re-entrant calls.
+     */
+    private VoxelShape getShapeForDirection(Direction facing) {
+        VoxelShape shape = BOUNDING_SHAPES.get(facing);
+        return shape != null ? shape : BOUNDING_SHAPES.get(Direction.NORTH);
     }
 
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
-        return BOUNDING_SHAPES.getOrDefault(state.getValue(FACING), Block.box(5.5, 3.0, 0.0, 10.5, 13.0, 16.0));
+        if (COMPUTING_SHAPE.get()) {
+            // Already inside a shape computation — return the simplest shape to break recursion
+            return SHAPE;
+        }
+        COMPUTING_SHAPE.set(true);
+        try {
+            return getShapeForDirection(state.getValue(FACING));
+        } finally {
+            COMPUTING_SHAPE.set(false);
+        }
     }
 
     @Override
     protected VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
-        return BOUNDING_SHAPES.getOrDefault(state.getValue(FACING), Block.box(5.5, 3.0, 0.0, 10.5, 13.0, 16.0));
+        if (COMPUTING_SHAPE.get()) {
+            return SHAPE;
+        }
+        COMPUTING_SHAPE.set(true);
+        try {
+            return getShapeForDirection(state.getValue(FACING));
+        } finally {
+            COMPUTING_SHAPE.set(false);
+        }
     }
 
     @Override
     protected VoxelShape getOcclusionShape(BlockState state, BlockGetter world, BlockPos pos) {
-        return BOUNDING_SHAPES.getOrDefault(state.getValue(FACING), Block.box(5.5, 3.0, 0.0, 10.5, 13.0, 16.0));
+        if (COMPUTING_SHAPE.get()) {
+            return SHAPE;
+        }
+        COMPUTING_SHAPE.set(true);
+        try {
+            return getShapeForDirection(state.getValue(FACING));
+        } finally {
+            COMPUTING_SHAPE.set(false);
+        }
     }
 
     @Override
     protected VoxelShape getVisualShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
-        return BOUNDING_SHAPES.getOrDefault(state.getValue(FACING), Block.box(5.5, 3.0, 0.0, 10.5, 13.0, 16.0));
+        if (COMPUTING_SHAPE.get()) {
+            return SHAPE;
+        }
+        COMPUTING_SHAPE.set(true);
+        try {
+            return getShapeForDirection(state.getValue(FACING));
+        } finally {
+            COMPUTING_SHAPE.set(false);
+        }
     }
 
     @Override
