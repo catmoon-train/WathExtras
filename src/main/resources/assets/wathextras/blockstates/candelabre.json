@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "wathextras:block/candelabre"
+    },
+    "lit=true": {
+      "model": "wathextras:block/candelabre_lit"
+    }
+  }
+}

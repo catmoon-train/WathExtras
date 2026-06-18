@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "wathextras:block/snowy_wreath",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "wathextras:block/snowy_wreath"
+    },
+    "facing=south": {
+      "model": "wathextras:block/snowy_wreath",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "wathextras:block/snowy_wreath",
+      "y": 270
+    }
+  }
+}
