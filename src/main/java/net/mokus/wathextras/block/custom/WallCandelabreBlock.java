@@ -60,11 +60,6 @@ public class WallCandelabreBlock extends CandelabreBlock {
     }
 
     @Override
-    public String getDescriptionId() {
-        return this.asItem().getDescriptionId();
-    }
-
-    @Override
     protected VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
         return getBoundingShape(state);
     }
