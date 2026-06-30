@@ -243,8 +243,9 @@ public class ModModelProvider extends FabricModelProvider {
                                 .generate(facing -> Variant.variant().with(VariantProperties.Y_ROT, VariantProperties.Rotation.values()[facing.get2DDataValue()])))
         );
 
-        generator.skipAutoItemBlock(candelabre);
-        generator.skipAutoItemBlock(wallCandelabre);
+        // Generate item models for candelabre blocks (replaces skipAutoItemBlock)
+        generator.createSimpleFlatItemModel(candelabre, unlitModel.toString());
+        generator.createSimpleFlatItemModel(wallCandelabre, wallUnlitModel.toString());
     }
 
     private void registerConnectiveBlock(BlockModelGenerators generator, Block block) {
@@ -479,6 +480,10 @@ public class ModModelProvider extends FabricModelProvider {
         generator.createTrivialCube(ModBlocks.ARCADE_FLOOR);
 
         generator.createTrivialCube(ModBlocks.ASPHALT);
+
+        // Christmas lights - use existing manual blockstate, just generate the item model
+        ResourceLocation chrLightsModel = ResourceLocation.fromNamespaceAndPath(WathExtras.MOD_ID, "block/christmas_lights");
+        generator.createSimpleFlatItemModel(ModBlocks.CHRISTMAS_LIGHTS, chrLightsModel.toString());
 
         registerConnectiveBlock(generator,ModBlocks.BLEACHED_WALL_PANEL);
         registerConnectiveBlock(generator,ModBlocks.DARK_OAK_WALL_PANEL);
